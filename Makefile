@@ -49,6 +49,11 @@ clean: clean-cpp
 	-rm -rf obj 2> /dev/null
 	-rm -f *log.txt entry $(FLOAT) 2> /dev/null
 
+count:
+	@echo all lines including ^$$:
+	@find . -name "*.[chS]" | xargs cat | wc -l
+	@echo all lines without ^$$:
+	@find . -name "*.[chS]" | xargs grep -E -v '^$$' | wc -l
 
 ##### some convinient rules #####
 
