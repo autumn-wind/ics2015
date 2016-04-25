@@ -64,14 +64,14 @@ static struct {
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
 static void print_regs() {
-	printf("eax\t\t0x%8x\t%d\n", cpu.eax, cpu.eax);
-	printf("ecx\t\t0x%8x\t%d\n", cpu.ecx, cpu.ecx);
-	printf("edx\t\t0x%8x\t%d\n", cpu.edx, cpu.edx);
-	printf("ebx\t\t0x%8x\t%d\n", cpu.ebx, cpu.ebx);
-	printf("esp\t\t0x%8x\t%d\n", cpu.esp, cpu.esp);
-	printf("ebp\t\t0x%8x\t%d\n", cpu.ebp, cpu.ebp);
-	printf("esi\t\t0x%8x\t%d\n", cpu.esi, cpu.esi);
-	printf("edi\t\t0x%8x\t%d\n", cpu.edi, cpu.edi);
+	printf("eax\t\t0x%08x\t%d\n", cpu.eax, cpu.eax);
+	printf("ecx\t\t0x%08x\t%d\n", cpu.ecx, cpu.ecx);
+	printf("edx\t\t0x%08x\t%d\n", cpu.edx, cpu.edx);
+	printf("ebx\t\t0x%08x\t%d\n", cpu.ebx, cpu.ebx);
+	printf("esp\t\t0x%08x\t%d\n", cpu.esp, cpu.esp);
+	printf("ebp\t\t0x%08x\t%d\n", cpu.ebp, cpu.ebp);
+	printf("esi\t\t0x%08x\t%d\n", cpu.esi, cpu.esi);
+	printf("edi\t\t0x%08x\t%d\n", cpu.edi, cpu.edi);
 	printf("eip\t\t0x%08x\t%d\n", cpu.eip, cpu.eip);
 }
 
