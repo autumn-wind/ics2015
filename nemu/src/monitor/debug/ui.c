@@ -72,7 +72,7 @@ static void print_regs() {
 	printf("ebp\t\t0x%8x\t%d\n", cpu.ebp, cpu.ebp);
 	printf("esi\t\t0x%8x\t%d\n", cpu.esi, cpu.esi);
 	printf("edi\t\t0x%8x\t%d\n", cpu.edi, cpu.edi);
-	printf("eip\t\t0x%8x\t%d\n", cpu.eip, cpu.eip);
+	printf("eip\t\t0x%08x\t%d\n", cpu.eip, cpu.eip);
 }
 
 static void print_watchpoints() {
