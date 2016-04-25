@@ -90,7 +90,7 @@ static int cmd_help(char *args) {
 void ui_mainloop() {
 	while(1) {
 		char *str = rl_gets();
-		printf("%s\n", str);
+		/*printf("%s\n", str);*/
 		char *str_end = str + strlen(str);
 
 		/* extract the first token as the command */
