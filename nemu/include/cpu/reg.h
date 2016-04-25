@@ -29,7 +29,7 @@ typedef struct {
 
 } CPU_state;
 
-extern CPU_state cpu;
+ CPU_state cpu;
 
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
