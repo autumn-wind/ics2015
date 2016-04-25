@@ -58,9 +58,10 @@ static struct {
 
 static int cmd_si(char *args) {
 	int steps;
-	printf("%d\n", strlen(args));
+	/*printf("%d\n", strlen(args));*/
 	sscanf(args, "%d", &steps);
-	printf("%d\n", steps);
+	/*printf("%d\n", steps);*/
+	cpu_exec(steps);
 	return 0;
 }
 
