@@ -15,10 +15,10 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 
 typedef struct {
-	struct {
-		uint32_t _32;
-		uint16_t _16;
+	union {
 		uint8_t _8[2];
+		uint16_t _16;
+		uint32_t _32;
 	} gpr[8];
 
 	/* Do NOT change the order of the GPRs' definitions. */
@@ -29,7 +29,7 @@ typedef struct {
 
 } CPU_state;
 
- CPU_state cpu;
+extern CPU_state cpu;
 
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
