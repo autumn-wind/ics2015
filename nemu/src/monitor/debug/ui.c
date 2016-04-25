@@ -40,6 +40,12 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
+static int cmd_info(char *args);
+
+static void print_regs();
+
+static void print_watchpoints();
+
 static struct {
 	char *name;
 	char *description;
@@ -48,13 +54,41 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{ "si", "Step one instruction exactly.\nUsage: stepi [N]\nArgument N means step N times (or till program stops for another reason).", cmd_si}
+	{ "si", "Step one instruction exactly.\nUsage: stepi [N]\nArgument N means step N times (or till program stops for another reason).", cmd_si},
+	{ "info", "List of integer registers and their contents", cmd_info}
 
 	/* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+
+static void print_regs() {
+	printf("eax\t\t0x%x\t%d\n", cpu.eax, cpu.eax);
+	printf("ecx\t\t0x%x\t%d\n", cpu.ecx, cpu.ecx);
+	printf("edx\t\t0x%x\t%d\n", cpu.edx, cpu.edx);
+	printf("ebx\t\t0x%x\t%d\n", cpu.ebx, cpu.ebx);
+	printf("esp\t\t0x%x\t%d\n", cpu.esp, cpu.esp);
+	printf("ebp\t\t0x%x\t%d\n", cpu.ebp, cpu.ebp);
+	printf("esi\t\t0x%x\t%d\n", cpu.esi, cpu.esi);
+	printf("edi\t\t0x%x\t%d\n", cpu.edi, cpu.edi);
+	printf("eip\t\t0x%x\t%d\n", cpu.eip, cpu.eip);
+}
+
+static void print_watchpoints() {
+
+}
+
+static int cmd_info(char *args) {
+	char *arg = strtok(NULL, " ");
+	if(strcmp(arg, "r") == 0)
+		print_regs();
+	else if(strcmp(arg, "w") == 0)
+		print_watchpoints();
+	else
+		printf("Unknown command '%s'\n", arg);
+	return 0;
+}
 
 static int cmd_si(char *args) {
 	int steps;
