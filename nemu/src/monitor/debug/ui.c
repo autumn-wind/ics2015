@@ -70,8 +70,9 @@ static int cmd_x(char *args) {
 	uint32_t num, addr, i;
 	sscanf(args, "%u%u", &num, &addr);
 	for(i = 0; i < num; ++i) {
-		printf("%08x\t", swaddr_read(addr + i * 4, 4));
+		printf("%08x ", swaddr_read(addr + i * 4, 4));
 	}
+	printf("\n");
 	return 0;
 }
 
