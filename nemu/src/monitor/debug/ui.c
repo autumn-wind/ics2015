@@ -46,6 +46,8 @@ static void print_regs();
 
 static void print_watchpoints();
 
+static int cmd_x(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -55,13 +57,23 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step one instruction exactly.\nUsage: stepi [N]\nArgument N means step N times (or till program stops for another reason).", cmd_si},
-	{ "info", "List of integer registers and their contents", cmd_info}
+	{ "info", "List of integer registers and their contents", cmd_info},
+	{ "x", "Print ram", cmd_x}
 
 	/* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+
+static int cmd_x(char *args) {
+	uint32_t num, addr, i;
+	sscanf(args, "%u%u", &num, &addr);
+	for(i = 0; i < num; ++i) {
+		printf("%u\t", swaddr_read(addr + i * 4, 4));
+	}
+	return 0;
+}
 
 static void print_regs() {
 	printf("eax\t\t0x%08x\t%d\n", cpu.eax, cpu.eax);
