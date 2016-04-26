@@ -68,7 +68,7 @@ static struct {
 
 static int cmd_x(char *args) {
 	uint32_t num, addr, i;
-	sscanf(args, "%u%u", &num, &addr);
+	sscanf(args, "%u%x", &num, &addr);
 	for(i = 0; i < num; ++i) {
 		printf("%08x ", swaddr_read(addr + i * 1, 1));
 	}
