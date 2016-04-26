@@ -66,13 +66,17 @@ static struct {
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
+#define NR_RAM_UNIT_EACH_LINE 4
+
 static int cmd_x(char *args) {
-	uint32_t num, addr, i;
+	uint32_t num, addr, i, j;
 	sscanf(args, "%u%x", &num, &addr);
-	for(i = 0; i < num; ++i) {
-		printf("%08x ", swaddr_read(addr + i * 1, 1));
+	for(i = 0; i < num; i += NR_RAM_UNIT_EACH_LINE) {
+		printf("0x%08x:\t", addr + i * 4);
+		for(j = 0; i + j< num && j < NR_RAM_UNIT_EACH_LINE; ++j)
+			printf("0x%08x\t", swaddr_read(addr + (i + j) * 4, 4));
+		printf("\n");
 	}
-	printf("\n");
 	return 0;
 }
 
