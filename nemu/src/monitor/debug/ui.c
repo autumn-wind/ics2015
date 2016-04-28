@@ -8,6 +8,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+extern uint32_t expr(char *, bool *);
 
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -36,17 +37,19 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
-static int cmd_help(char *args);
+static int cmd_help(char *);
 
-static int cmd_si(char *args);
+static int cmd_si(char *);
 
-static int cmd_info(char *args);
+static int cmd_info(char *);
 
 static void print_regs();
 
 static void print_watchpoints();
 
-static int cmd_x(char *args);
+static int cmd_x(char *);
+
+static int cmd_p(char *);
 
 static struct {
 	char *name;
@@ -58,7 +61,8 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step one instruction exactly.\nUsage: stepi [N]\nArgument N means step N times (or till program stops for another reason).", cmd_si},
 	{ "info", "List of integer registers and their contents", cmd_info},
-	{ "x", "Print ram", cmd_x}
+	{ "x", "Print ram", cmd_x},
+	{ "p", "Print value", cmd_p},
 
 	/* TODO: Add more commands */
 
@@ -67,6 +71,19 @@ static struct {
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
 #define NR_RAM_UNIT_EACH_LINE 4
+
+static int cmd_p(char *args){
+	static uint32_t count = 0;
+	bool success;
+	uint32_t res = expr(args, &success);
+	if(!success) {
+		printf("Invalid expression.\n");
+	}
+	else {
+		printf("$%d = %u\n", ++count, res);
+	}
+	return 0;
+}
 
 static int cmd_x(char *args) {
 	uint32_t num, addr, i, j;
