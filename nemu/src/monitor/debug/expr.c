@@ -346,11 +346,11 @@ uint32_t expr(char *e, bool *success) {
 		}
 	}
 
-	printf("token num: %d\t\n", nr_token);
-	for(i = 0; i < nr_token; ++i){
-		if(tokens[i].type == DECIMAL_NUM || tokens[i].type == HEX_NUM || tokens[i].type == REGS)
-		printf("%s\n", tokens[i].str);
-	}
+	/*printf("token num: %d\t\n", nr_token);*/
+	/*for(i = 0; i < nr_token; ++i){*/
+		/*if(tokens[i].type == DECIMAL_NUM || tokens[i].type == HEX_NUM || tokens[i].type == REGS)*/
+		/*printf("%s\n", tokens[i].str);*/
+	/*}*/
 
 	/* TODO: Insert codes to evaluate the expression. */
 	return eval(tokens, 0, nr_token - 1, success);

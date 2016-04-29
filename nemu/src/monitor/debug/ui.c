@@ -45,11 +45,13 @@ static int cmd_info(char *);
 
 static void print_regs();
 
-static void print_watchpoints();
-
 static int cmd_x(char *);
 
 static int cmd_p(char *);
+
+static int cmd_w(char *);
+
+static int cmd_d(char *);
 
 static struct {
 	char *name;
@@ -59,10 +61,12 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{ "si", "Step one instruction exactly.\nUsage: stepi [N]\nArgument N means step N times (or till program stops for another reason).", cmd_si},
+	{ "si", "Step N instruction exactly", cmd_si},
 	{ "info", "List of integer registers and their contents", cmd_info},
 	{ "x", "Print ram", cmd_x},
 	{ "p", "Print value", cmd_p},
+	{ "w", "Set watchpoint", cmd_w},
+	{ "d", "Delete watchpoint", cmd_d},
 
 	/* TODO: Add more commands */
 
@@ -72,7 +76,49 @@ static struct {
 
 #define NR_RAM_UNIT_EACH_LINE 4
 
-static int cmd_p(char *args){
+static int cmd_d(char *args) {
+	int no = -1;
+	if(sscanf(args, "%d", &no) < 1){
+		printf("Invalid watchpoint number.\n");
+		return 0;
+	}
+	if(!free_wp(no)){
+		printf("No required watchpoint.\n");
+		return 0;
+	}
+	return 0;
+}
+
+static int cmd_w(char *args) {
+	while(*args == ' ')	++args;
+	WP *wp = new_wp();
+	if(!wp) {
+		printf("Cannot set more watchpoint.\n");
+		return 0;
+	}
+	if(strlen(args) + 1 >= EXPR_LEN) {
+		if(!free_wp(wp->NO)){
+			printf("No required watchpoint.\n");
+			return 0;
+		}
+		printf("Expression too long.\n");
+		return 0;
+	}
+	bool success = false;
+	wp->old_val = expr(args, &success);
+	if(!success) {
+		if(!free_wp(wp->NO)){
+			printf("No required watchpoint.\n");
+			return 0;
+		}
+		printf("Invalid expression.\n");
+		return 0;
+	}
+	strcpy(wp->str, args);
+	return 0;
+}
+
+static int cmd_p(char *args) {
 	static uint32_t count = 0;
 	bool success;
 	uint32_t res = expr(args, &success);
@@ -80,14 +126,25 @@ static int cmd_p(char *args){
 		printf("Invalid expression.\n");
 	}
 	else {
-		printf("$%d = %u\n", ++count, res);
+		printf("$%d = %u\t0x%08x\n", ++count, res, res);
 	}
 	return 0;
 }
 
 static int cmd_x(char *args) {
 	uint32_t num, addr, i, j;
-	sscanf(args, "%u%x", &num, &addr);
+	char *n = strtok(NULL, " ");
+	if(sscanf(n, "%u", &num) < 1){
+		printf("Invalid ram unit numbers.\n");
+		return 0;
+	}
+	char *expression = n + strlen(n) + 1;
+	bool success = false;
+	addr = expr(expression, &success);
+	if(!success){
+		printf("Invalid expression.\n");
+		return 0;
+	}
 	for(i = 0; i < num; i += NR_RAM_UNIT_EACH_LINE) {
 		printf("0x%08x:\t", addr + i * 4);
 		for(j = 0; i + j< num && j < NR_RAM_UNIT_EACH_LINE; ++j)
@@ -107,10 +164,6 @@ static void print_regs() {
 	printf("esi\t\t0x%08x\t%d\n", cpu.esi, cpu.esi);
 	printf("edi\t\t0x%08x\t%d\n", cpu.edi, cpu.edi);
 	printf("eip\t\t0x%08x\t%d\n", cpu.eip, cpu.eip);
-}
-
-static void print_watchpoints() {
-
 }
 
 static int cmd_info(char *args) {
