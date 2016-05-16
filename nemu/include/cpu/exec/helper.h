@@ -32,4 +32,14 @@ extern char assembly[];
 #define print_asm_template3() \
 	print_asm(str(instr) str(SUFFIX) " %s,%s,%s", op_src->str, op_src2->str, op_dest->str)
 
+static inline void set_ZF(uint32_t result) {
+	if(result == 0) {
+		cpu.ZF = 1;
+	}
+	else {
+		cpu.ZF = 0;
+	}
+}
+
 #endif
+

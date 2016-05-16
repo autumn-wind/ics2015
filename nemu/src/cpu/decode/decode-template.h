@@ -5,6 +5,7 @@
 #define decode_r_internal concat3(decode_r_, SUFFIX, _internal)
 #define decode_rm_internal concat3(decode_rm_, SUFFIX, _internal)
 #define decode_i concat(decode_i_, SUFFIX)
+#define decode_si concat(decode_si_, SUFFIX)
 #define decode_a concat(decode_a_, SUFFIX)
 #define decode_r2rm concat(decode_r2rm_, SUFFIX)
 
@@ -21,7 +22,7 @@ make_helper(concat(decode_i_, SUFFIX)) {
 	return DATA_BYTE;
 }
 
-#if DATA_BYTE == 1 || DATA_BYTE == 4
+//#if DATA_BYTE == 1 || DATA_BYTE == 4
 /* sign immediate */
 make_helper(concat(decode_si_, SUFFIX)) {
 	op_src->type = OP_TYPE_IMM;
@@ -32,8 +33,8 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	 *
 	op_src->simm = ???
 	 */
-	panic("please implement me");
 
+	op_src->simm = instr_fetch(eip, DATA_BYTE);
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG
@@ -41,7 +42,7 @@ make_helper(concat(decode_si_, SUFFIX)) {
 #endif
 	return DATA_BYTE;
 }
-#endif
+//#endif
 
 /* eAX */
 static int concat(decode_a_, SUFFIX) (swaddr_t eip, Operand *op) {
@@ -149,6 +150,10 @@ make_helper(concat(decode_si_rm2r_, SUFFIX)) {
 	return len;
 }
 #endif
+
+make_helper(concat(decode_rel_, SUFFIX)) {
+	return decode_si(eip);
+}
 
 /* used by shift instructions */
 make_helper(concat(decode_rm_1_, SUFFIX)) {
