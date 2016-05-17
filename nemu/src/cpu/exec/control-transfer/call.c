@@ -2,7 +2,8 @@
 
 static void do_call_l() {
 	cpu.esp -= 4;
-	swaddr_write(cpu.esp, 4, cpu.eip);
+	int len = decode_rel_l(cpu.eip + 1) + 1;
+	swaddr_write(cpu.esp, 4, cpu.eip + len);
 	cpu.eip += (&ops_decoded.src)->val;
 }
 

@@ -12,6 +12,9 @@ int main() {
 
 	b = A[3];
 	A[5] = b;
+
+	/*set breakpoint*/
+	set_bp();
 	
 	nemu_assert(A[0] == 0);
 	nemu_assert(A[1] == 1);

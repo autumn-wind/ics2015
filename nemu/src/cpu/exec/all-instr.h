@@ -3,6 +3,7 @@
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
 #include "data-mov/push.h"
+#include "data-mov/leave.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -13,6 +14,7 @@
 #include "arith/div.h"
 #include "arith/sub.h"
 #include "arith/cmp.h"
+#include "arith/add.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
@@ -31,4 +33,6 @@
 #include "special/special.h"
 
 #include "control-transfer/call.h"
+#include "control-transfer/jcc.h"
 #include "control-transfer/jmp.h"
+#include "control-transfer/ret.h"

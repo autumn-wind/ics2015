@@ -41,5 +41,12 @@ static inline void set_ZF(uint32_t result) {
 	}
 }
 
+static inline void set_CF(uint32_t left, uint32_t right) {
+	if(left < right)
+		cpu.CF = 1;
+	else
+		cpu.CF = 0;
+}
+
 #endif
 

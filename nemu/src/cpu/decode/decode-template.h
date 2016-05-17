@@ -33,8 +33,17 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	 *
 	op_src->simm = ???
 	 */
+	unsigned int temp = instr_fetch(eip, DATA_BYTE);
 
-	op_src->simm = instr_fetch(eip, DATA_BYTE);
+	if(temp & (0x1 << (DATA_BYTE * 8 - 1))) {
+		switch(DATA_BYTE) {
+			case 1:	temp = temp | 0xFFFFFF00;break;
+			case 2: temp = temp | 0xFFFF0000;break;
+			default:	break;
+		}
+	}
+
+	op_src->simm = temp;
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG
@@ -137,7 +146,7 @@ make_helper(concat(decode_r_, SUFFIX)) {
 	return decode_r_internal(eip, op_src);
 }
 
-#if DATA_BYTE == 2 || DATA_BYTE == 4
+//#if DATA_BYTE == 2 || DATA_BYTE == 4
 make_helper(concat(decode_si2rm_, SUFFIX)) {
 	int len = decode_rm_internal(eip, op_dest, op_src2);	/* op_src2 not use here */
 	len += decode_si_b(eip + len);
@@ -149,7 +158,7 @@ make_helper(concat(decode_si_rm2r_, SUFFIX)) {
 	len += decode_si_b(eip + len);
 	return len;
 }
-#endif
+//#endif
 
 make_helper(concat(decode_rel_, SUFFIX)) {
 	return decode_si(eip);
