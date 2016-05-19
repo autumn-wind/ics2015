@@ -10,6 +10,17 @@ static void do_execute() {
 make_instr_helper(rel)
 #undef instr
 
+#define instr jne
+static void do_execute() {
+	if(cpu.ZF == 0) {
+		//printf("%x\n", (&ops_decoded.src)->val);
+		cpu.eip += (&ops_decoded.src)->val; 
+	}
+}
+
+make_instr_helper(rel)
+#undef instr
+
 #define instr jbe
 static void do_execute() {
 	if(cpu.ZF == 1 || cpu.CF == 1) {

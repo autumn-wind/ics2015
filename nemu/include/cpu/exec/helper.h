@@ -32,7 +32,18 @@ extern char assembly[];
 #define print_asm_template3() \
 	print_asm(str(instr) str(SUFFIX) " %s,%s,%s", op_src->str, op_src2->str, op_dest->str)
 
-static inline void set_ZF(uint32_t result) {
+static inline void set_CF(unsigned long long result, uint8_t data_size) {
+	//unsigned long long cb = result & (0x1LL << (data_size * 8));
+	//printf("%lld\n", cb);
+	if(result & (0x1LL << (data_size * 8))) {
+		cpu.CF = 1;
+	}
+	else {
+		cpu.CF = 0;
+	}
+}
+
+static inline void set_ZF(long long result) {
 	if(result == 0) {
 		cpu.ZF = 1;
 	}
@@ -41,12 +52,43 @@ static inline void set_ZF(uint32_t result) {
 	}
 }
 
-static inline void set_CF(uint32_t left, uint32_t right) {
-	if(left < right)
-		cpu.CF = 1;
-	else
-		cpu.CF = 0;
-}
+//#define HIGH_ORDER_BIT 0x80000000
+//static inline void set_CF(uint32_t left, uint32_t right, uint8_t add_or_sub) {
+	////[> sub <]
+	//if(add_or_sub == 0) {
+		//if(left < right)
+			//cpu.CF = 1;
+		//else
+			//cpu.CF = 0;
+	//}
+	////[> add <]
+	//else if(add_or_sub == 1) {
+		//uint32_t result = left + right;
+		//union {
+			//struct {
+				//uint8_t left	:1;
+				//uint8_t right	:1;
+				//uint8_t result	:1;
+			//};
+			//uint8_t val;
+		//} high_bit;
+		//high_bit.val = 0;
+		//high_bit.left = (left & HIGH_ORDER_BIT) >> 31;
+		//high_bit.right = (right & HIGH_ORDER_BIT) >> 31;
+		//high_bit.result = (result & HIGH_ORDER_BIT) >> 31;
+		//if((high_bit.left == 1 && high_bit.right == 1) || (((high_bit.left ^ high_bit.right) == 1) && high_bit.result == 1)) {
+			//cpu.CF = 1;
+		//}
+		//else {
+			//cpu.CF = 0;
+		//}
+	//}
+	//else {
+		//assert(0);
+	//}
+//}
+//#undef HIGH_ORDER_BIT
+
 
 #endif
 

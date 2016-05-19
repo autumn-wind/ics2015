@@ -1,3 +1,6 @@
+#include<stdlib.h>
+#include<stdio.h> 
+
 void init_monitor(int, char *[]);
 void reg_test();
 void restart();
@@ -13,6 +16,10 @@ int main(int argc, char *argv[]) {
 
 	/* Initialize the virtual computer system. */
 	restart();
+	/*printf("%d\t%d\n", sizeof(long), sizeof(long long));*/
+	/*unsigned int b = -1;*/
+	/*long long c = b;*/
+	/*printf("%d\t%lld\n", b, c);*/
 
 	/* Receive commands from user. */
 	ui_mainloop();

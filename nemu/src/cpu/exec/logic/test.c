@@ -1,17 +1,21 @@
 #include "cpu/exec/helper.h"
 
-static void do_test_l() {
-	unsigned int result = (&ops_decoded.dest)->val & (&ops_decoded.src)->val;
-	set_ZF(result);
-}
+#define DATA_BYTE 1
+#include "test-template.h"
+#undef DATA_BYTE
 
-make_helper(test_r2rm_w) {
-	assert(0);
-	return 0;
-}
+#define DATA_BYTE 2
+#include "test-template.h"
+#undef DATA_BYTE
 
-make_helper(test_r2rm_l) {
-	return idex(eip, decode_r2rm_l, do_test_l);
-}
+#define DATA_BYTE 4
+#include "test-template.h"
+#undef DATA_BYTE
 
+/* for instruction encoding overloading */
+
+make_helper_v(test_i2r)
+make_helper_v(test_i2rm)
 make_helper_v(test_r2rm)
+make_helper_v(test_rm2r)
+

@@ -58,7 +58,11 @@ count:
 ##### some convinient rules #####
 
 #USERPROG := obj/testcase/mov-c
-USERPROG := obj/testcase/add
+#USERPROG := obj/testcase/add
+#USERPROG := obj/testcase/bit
+#USERPROG := obj/testcase/add-longlong
+USERPROG := obj/testcase/bubble-sort
+
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)

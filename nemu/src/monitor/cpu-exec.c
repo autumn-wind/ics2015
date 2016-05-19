@@ -43,6 +43,7 @@ void cpu_exec(volatile uint32_t n) {
 	}
 	nemu_state = RUNNING;
 
+	/*uint32_t instr_executed = 0;*/
 #ifdef DEBUG
 	volatile uint32_t n_temp = n;
 #endif
@@ -60,7 +61,10 @@ void cpu_exec(volatile uint32_t n) {
 
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
+		/*printf("%x\n", cpu.eip);*/
 		int instr_len = exec(cpu.eip);
+		/*printf("%d\n", instr_len);*/
+		/*printf("%d\n", ++instr_executed);*/
 
 		cpu.eip += instr_len;
 
