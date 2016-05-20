@@ -43,13 +43,43 @@ static inline void set_CF(unsigned long long result, uint8_t data_size) {
 	}
 }
 
-static inline void set_ZF(long long result) {
-	if(result == 0) {
+static inline void set_ZF(unsigned long long result) {
+	if(result == 0LL) {
 		cpu.ZF = 1;
 	}
 	else {
 		cpu.ZF = 0;
 	}
+}
+
+static inline void set_OF(unsigned long long left, unsigned long long right, unsigned long long result, uint8_t data_size, uint8_t add_or_sub) {
+	uint8_t shift_num = data_size * 8 - 1;
+	uint8_t left_sign = (left & (1LL << shift_num)) >> shift_num;
+	uint8_t right_sign = (right & (1LL << shift_num)) >> shift_num;
+	uint8_t result_sign = (result & (1LL << shift_num)) >> shift_num;
+	//sub
+	if(add_or_sub == 1) {
+		if((left_sign == 1 && right_sign == 0 && result_sign == 0) || (left_sign == 0 && right_sign == 1 && result_sign == 1)) {
+			cpu.OF = 1;
+		}
+		else {
+			cpu.OF = 0;
+		}
+	}
+	//add
+	else {
+		if((left_sign == 0 && right_sign == 0 && result_sign == 1) || (left_sign == 1 && right_sign == 1 && result_sign == 0)) {
+			cpu.OF = 1;
+		}
+		else {
+			cpu.OF = 0;
+		}
+	}
+}
+
+static inline void set_SF(unsigned long long result, uint8_t data_size) {
+	uint8_t shift_num = data_size * 8 - 1;
+	cpu.SF = (result & (1LL << shift_num)) >> shift_num;
 }
 
 //#define HIGH_ORDER_BIT 0x80000000
