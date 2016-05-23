@@ -3,15 +3,23 @@
 #define instr add
 
 static void do_execute() {
-	//uint32_t left = (&ops_decoded.dest)->val;
-	//uint32_t right = (&ops_decoded.src)->val;
-	//set_CF(left, right, 1);
-	unsigned long long left = (&ops_decoded.dest)->val;
-	unsigned long long right = (&ops_decoded.src)->val;
-	unsigned long long result = left + right;
-	set_CF(result, DATA_BYTE);
 	OPERAND_W(op_dest, op_dest->val + op_src->val);
 	print_asm_template2();
+
+	unsigned int mask = 0;
+	switch(DATA_BYTE) {
+		case 1:	mask = 0x000000FF;break;
+		case 2: mask = 0x0000FFFF;break;
+		case 4: mask = 0xFFFFFFFF;break;
+		default:assert(0);
+	}
+	unsigned long long left = (&ops_decoded.dest)->val & mask;
+	unsigned long long right = (&ops_decoded.src)->val & mask;
+	unsigned long long result = left + right;
+	set_ZF(result, DATA_BYTE);
+	set_CF(result, DATA_BYTE);
+	set_OF(left, right, result, DATA_BYTE, 0);
+	set_SF(result, DATA_BYTE);
 }
 
 make_instr_helper(r2rm)

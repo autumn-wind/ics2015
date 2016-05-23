@@ -3,7 +3,7 @@
 #define instr movzx
 
 static void do_execute() {
-	OPERAND_W(op_dest, op_src->val);
+	OPERAND_W(op_dest, (op_src->val & 0x000000FF));
 	print_asm_template2();
 }
 

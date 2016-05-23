@@ -43,8 +43,15 @@ static inline void set_CF(unsigned long long result, uint8_t data_size) {
 	}
 }
 
-static inline void set_ZF(unsigned long long result) {
-	if(result == 0LL) {
+static inline void set_ZF(unsigned long long result, uint8_t data_size) {
+	unsigned long long mask = 0LL;
+	switch(data_size) {
+		case 1:	mask = 0x00000000000000FFLL;break;
+		case 2: mask = 0x000000000000FFFFLL;break;
+		case 4: mask = 0x00000000FFFFFFFFLL;break;
+		default:assert(0);
+	}
+	if((result & mask) == 0LL) {
 		cpu.ZF = 1;
 	}
 	else {

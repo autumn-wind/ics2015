@@ -3,9 +3,19 @@
 #define instr test
 
 static void do_execute() {
-	unsigned long long result = (&ops_decoded.dest)->val & (&ops_decoded.src)->val;
-	cpu.CF = cpu.OF = 0;
-	set_ZF(result);
+	unsigned int mask = 0;
+	switch(DATA_BYTE) {
+		case 1:	mask = 0x000000FF;break;
+		case 2: mask = 0x0000FFFF;break;
+		case 4: mask = 0xFFFFFFFF;break;
+		default:assert(0);
+	}
+	unsigned long long left = (&ops_decoded.dest)->val & mask;
+	unsigned long long right = (&ops_decoded.src)->val & mask;
+	unsigned long long result = left & right;
+	cpu.CF = 0;
+	cpu.OF = 0;
+	set_ZF(result, DATA_BYTE);
 	set_SF(result, DATA_BYTE);
 }
 

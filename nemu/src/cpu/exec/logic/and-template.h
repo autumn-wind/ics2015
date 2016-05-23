@@ -3,14 +3,24 @@
 #define instr and
 
 static void do_execute () {
-	DATA_TYPE result = op_dest->val & op_src->val;
-	OPERAND_W(op_dest, result);
+	DATA_TYPE result2 = op_dest->val & op_src->val;
+	OPERAND_W(op_dest, result2);
 
 	/* TODO: Update EFLAGS. */
+	unsigned int mask = 0;
+	switch(DATA_BYTE) {
+		case 1:	mask = 0x000000FF;break;
+		case 2: mask = 0x0000FFFF;break;
+		case 4: mask = 0xFFFFFFFF;break;
+		default:assert(0);
+	}
+	unsigned long long left = (&ops_decoded.dest)->val & mask;
+	unsigned long long right = (&ops_decoded.src)->val & mask;
+	unsigned long long result = left & right;
+	set_ZF(result, DATA_BYTE);
+	set_SF(result, DATA_BYTE);
 	cpu.CF = 0;
 	cpu.OF = 0;
-	set_ZF(result);
-	set_SF(result, DATA_BYTE);
 
 	print_asm_template2();
 }
