@@ -1,13 +1,13 @@
 #include "cpu/exec/template-start.h"
 
-#define instr sub
+#define instr sbb
 
 static void do_execute() {
 	//uint32_t left = (&ops_decoded.dest)->val;
 	//uint32_t right = (&ops_decoded.src)->val;
 	//set_CF(left, right, 1);
 	unsigned long long left = (&ops_decoded.dest)->val;
-	unsigned long long right = (&ops_decoded.src)->val;
+	unsigned long long right = (&ops_decoded.src)->val + cpu.CF;
 	unsigned long long result = left - right;
 
 	set_CF(result, DATA_BYTE);
@@ -15,7 +15,7 @@ static void do_execute() {
 	set_OF(left, right, result, DATA_BYTE, 1);
 	set_SF(result, DATA_BYTE);
 
-	OPERAND_W(op_dest, op_dest->val - op_src->val);
+	OPERAND_W(op_dest, op_dest->val - op_src->val - cpu.CF);
 	print_asm_template2();
 }
 

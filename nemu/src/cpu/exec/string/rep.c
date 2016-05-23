@@ -26,7 +26,11 @@ make_helper(rep) {
 				);
 
 			/* TODO: Jump out of the while loop if necessary. */
-
+			if(ops_decoded.opcode == 0xa6 || ops_decoded.opcode == 0xa7 || ops_decoded.opcode == 0xae || ops_decoded.opcode == 0xaf) {
+				if(cpu.ZF == 1) {
+					break;
+				}
+			}
 		}
 		len = 1;
 	}

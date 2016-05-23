@@ -3,5 +3,6 @@
 
 make_helper(jmp_rel_b);
 make_helper(jmp_rel_v);
+make_helper(jmpni_rm_v);
 
 #endif

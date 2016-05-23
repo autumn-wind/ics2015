@@ -57,14 +57,42 @@ count:
 
 ##### some convinient rules #####
 
-#USERPROG := obj/testcase/mov-c
 #USERPROG := obj/testcase/add
-#USERPROG := obj/testcase/bit
 #USERPROG := obj/testcase/add-longlong
-#USERPROG := obj/testcase/fib
+#USERPROG := obj/testcase/bit
 #USERPROG := obj/testcase/bubble-sort
-USERPROG := obj/testcase/fact
+#USERPROG := obj/testcase/fact
+#USERPROG := obj/testcase/fib
 #USERPROG := obj/testcase/gotbaha
+#USERPROG := obj/testcase/if-else
+#USERPROG := obj/testcase/leap-year
+#USERPROG := obj/testcase/matrix-mul
+#USERPROG := obj/testcase/matrix-mul-small
+#USERPROG := obj/testcase/max
+#USERPROG := obj/testcase/min3
+#USERPROG := obj/testcase/mov-c
+#USERPROG := obj/testcase/mov
+#USERPROG := obj/testcase/movsx
+#USERPROG := obj/testcase/mul-longlong
+#USERPROG := obj/testcase/pascal
+#USERPROG := obj/testcase/prime
+#USERPROG := obj/testcase/quick-sort
+#USERPROG := obj/testcase/select-sort
+#USERPROG := obj/testcase/shuixianhua
+#USERPROG := obj/testcase/sum
+#USERPROG := obj/testcase/wanshu
+#USERPROG := obj/testcase/switch
+#USERPROG := obj/testcase/to-lower-case
+
+USERPROG := obj/testcase/sub-longlong
+#USERPROG := obj/testcase/struct
+#USERPROG := obj/testcase/string
+#USERPROG := obj/testcase/hello
+#USERPROG := obj/testcase/hello-inline-asm
+#USERPROG := obj/testcase/hello-str
+#USERPROG := obj/testcase/integral
+#USERPROG := obj/testcase/quadratic-eq
+#USERPROG := obj/testcase/start
 
 ENTRY := $(USERPROG)
 

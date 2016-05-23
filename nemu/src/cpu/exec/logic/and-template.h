@@ -10,6 +10,7 @@ static void do_execute () {
 	cpu.CF = 0;
 	cpu.OF = 0;
 	set_ZF(result);
+	set_SF(result, DATA_BYTE);
 
 	print_asm_template2();
 }
