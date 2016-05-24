@@ -3,33 +3,31 @@
 
 #include "trap.h"
 
+#define SCALE 16
+
 typedef int FLOAT;
 
-static inline int F2int(FLOAT a) {
-	nemu_assert(0);
-	return 0;
-}
-
-static inline FLOAT int2F(int a) {
-	nemu_assert(0);
-	return 0;
-}
-
-static inline FLOAT F_mul_int(FLOAT a, int b) {
-	nemu_assert(0);
-	return 0;
-}
-
-static inline FLOAT F_div_int(FLOAT a, int b) {
-	nemu_assert(0);
-	return 0;
-}
-
-FLOAT f2F(float);
+FLOAT f2F(float) __attribute__((regparm(0)));
 FLOAT F_mul_F(FLOAT, FLOAT);
 FLOAT F_div_F(FLOAT, FLOAT);
 FLOAT Fabs(FLOAT);
 FLOAT sqrt(FLOAT);
 FLOAT pow(FLOAT, FLOAT);
+
+static inline int F2int(FLOAT a) {
+	return a >> SCALE;
+}
+
+static inline FLOAT int2F(int a) {
+	return a << SCALE;
+}
+
+static inline FLOAT F_mul_int(FLOAT a, int b) {
+	return a * b;
+}
+
+static inline FLOAT F_div_int(FLOAT a, int b) {
+	return a / b;
+}
 
 #endif
