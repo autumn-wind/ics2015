@@ -1,7 +1,10 @@
 #include "FLOAT.h"
 
 __attribute__((regparm(0))) FLOAT f2F(float a) {
-	return 1;
+	int i;
+	for(i = 0; i < SCALE; ++i)
+		a *= 2;
+	return a;
 }
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
