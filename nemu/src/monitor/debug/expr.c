@@ -6,11 +6,16 @@
 #include <sys/types.h>
 #include <regex.h>
 #include <stdlib.h>
+#include <elf.h>
 
 uint32_t expr(char *, bool *);
 
+extern char *strtab;
+extern Elf32_Sym *symtab;
+extern int nr_symtab_entry;
+
 enum {
-	NOTYPE = 256, DECIMAL_NUM, HEX_NUM, REGS, EQ, NEQ, AND, XOR, NOT, DEREF 
+	NOTYPE = 256, DECIMAL_NUM, HEX_NUM, REGS, VAR, EQ, NEQ, AND, XOR, NOT, DEREF 
 
 	/* TODO: Add more token types */
 
@@ -30,6 +35,7 @@ static struct rule {
 	//{"0|[1-9]\\d*", DECIMAL_NUM},	// decimal number
 	{"0|[1-9][0-9]*", DECIMAL_NUM},	// decimal number
 	{"\\$[a-z]+", REGS},			// registers
+	{"[a-zA-Z_]\\w*", VAR},         // variable
 	{"\\(", '('},					// left parenthese
 	{"\\)", ')'},					// right parenthese
 	{"\\+", '+'},					// plus
@@ -129,6 +135,7 @@ static bool make_token(char *e) {
 					case DECIMAL_NUM:
 					case HEX_NUM:
 					case REGS:
+					case VAR:
 						if(substr_len >= 32)
 							assert(0);
 						strncpy(tokens[nr_token].str, substr_start, substr_len);
@@ -204,6 +211,7 @@ int get_dominant_op(Token *tokens, int p, int q, bool *success) {
 				case DECIMAL_NUM:
 				case HEX_NUM:
 				case REGS:
+				case VAR:
 				case '(':
 				case ')':	continue;
 				default:	break;
@@ -260,6 +268,23 @@ uint32_t eval(Token *tokens, int p, int q, bool *success){
 				case 8:	*success = true;	return cpu.eip;
 				default: *success = false;	return 0;
 			}
+		}
+		else if(tokens[p].type == VAR){
+			*success = true;
+			int i;
+			/*printf("%d\n", nr_symtab_entry);*/
+			for(i = 0; i < nr_symtab_entry; ++i) {
+				Elf32_Sym *syb = symtab + i;
+				/*printf("%d\t%d\n", ELF32_ST_TYPE(syb->st_info), STT_OBJECT);*/
+				if(ELF32_ST_TYPE(syb->st_info) == STT_OBJECT) {
+					/*printf("%s\t%s\n", tokens[p].str, strtab + syb->st_name);*/
+					if(!strcmp(tokens[p].str, strtab + syb->st_name)) {
+						return syb->st_value;
+					}
+				}
+			}
+			*success = false;
+			return 0;
 		}
 		else {
 			*success = false;
@@ -339,6 +364,7 @@ uint32_t expr(char *e, bool *success) {
 				case DECIMAL_NUM:
 				case HEX_NUM:
 				case ')':
+				case VAR:
 				case REGS:	break;
 
 				default: assert(0);

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <elf.h>
 
 void cpu_exec(uint32_t);
 extern uint32_t expr(char *, bool *);
@@ -53,6 +54,8 @@ static int cmd_w(char *);
 
 static int cmd_d(char *);
 
+static int cmd_bt(char *);
+
 static struct {
 	char *name;
 	char *description;
@@ -67,14 +70,69 @@ static struct {
 	{ "p", "Print value", cmd_p},
 	{ "w", "Set watchpoint", cmd_w},
 	{ "d", "Delete watchpoint", cmd_d},
+	{ "bt", "Print stack frame list", cmd_bt},
 
 	/* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
-
 #define NR_RAM_UNIT_EACH_LINE 4
+#define MAX_FUNC_NUM 100
+
+typedef struct {
+    swaddr_t prev_ebp;
+	swaddr_t ret_addr;
+	uint32_t args[4];
+} PartOfStackFrame;
+
+extern char *strtab;
+extern Elf32_Sym *symtab;
+extern int nr_symtab_entry;
+static struct {
+	char str[32];
+	swaddr_t begin;
+	swaddr_t end;
+} func_info[MAX_FUNC_NUM];
+static int func_num = 0;
+
+void get_func_info(void) {
+	int i;
+	for(i = 0; i < nr_symtab_entry; ++i) {
+		Elf32_Sym *syb = symtab + i;
+		if(ELF32_ST_TYPE(syb->st_info) == STT_FUNC) {
+			if(func_num >= MAX_FUNC_NUM)
+				assert(0);
+				func_info[func_num].begin = syb->st_value;
+				func_info[func_num].end = syb->st_value + syb->st_size;
+				strcpy(func_info[func_num++].str, strtab + syb->st_name);
+		}
+	}
+	for(i = 0; i < func_num; ++i) {
+		printf("%d\t%d\t%s\n", func_info[i].begin, func_info[i].end, func_info[i].str);
+	}
+}
+
+static int cmd_bt(char *args) {
+	swaddr_t ebp = cpu.ebp, eip = cpu.eip;
+	int i;
+	for(; ebp != 0; ) {
+		printf("0x%08x\t", eip);
+		for(i = 0; i < func_num; ++i) {
+			if(eip >= func_info[i].begin && eip < func_info[i].end) {
+				printf("%s\t", func_info[i].str);
+				break;
+			}
+		}
+		for(i = 0; i < 16; i += 4) {
+			printf("0x%08x\t", swaddr_read(ebp + 8 + i, 4));
+		}
+		eip = swaddr_read(ebp + 4, 4);
+		ebp = swaddr_read(ebp, 4);
+		printf("\n");
+	}
+	return 0;
+}
 
 static int cmd_d(char *args) {
 	int no = -1;
@@ -210,6 +268,7 @@ static int cmd_help(char *args) {
 }
 
 void ui_mainloop() {
+	get_func_info();
 	while(1) {
 		char *str = rl_gets();
 		/*printf("%s\n", str);*/
