@@ -20,9 +20,30 @@ static void do_execute() {
 make_instr_helper(rel)
 #undef instr
 
+#define instr jae
+static void do_execute() {
+	if(cpu.CF == 0) {
+		cpu.eip += (&ops_decoded.src)->val; 
+	}
+}
+
+make_instr_helper(rel)
+#undef instr
+
 #define instr jne
 static void do_execute() {
 	if(cpu.ZF == 0) {
+		//printf("%x\n", (&ops_decoded.src)->val);
+		cpu.eip += (&ops_decoded.src)->val; 
+	}
+}
+
+make_instr_helper(rel)
+#undef instr
+
+#define instr jb
+static void do_execute() {
+	if(cpu.CF == 1) {
 		//printf("%x\n", (&ops_decoded.src)->val);
 		cpu.eip += (&ops_decoded.src)->val; 
 	}
