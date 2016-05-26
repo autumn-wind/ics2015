@@ -15,4 +15,6 @@
 make_helper_v(jbe_rel)
 make_helper_v(jle_rel)
 make_helper_v(jl_rel)
+make_helper_v(je_rel)
+make_helper_v(ja_rel)
 

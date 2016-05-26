@@ -86,11 +86,11 @@ count:
 #USERPROG := obj/testcase/to-lower-case
 #USERPROG := obj/testcase/sub-longlong
 #USERPROG := obj/testcase/struct
-USERPROG := obj/testcase/string
+#USERPROG := obj/testcase/string
 
 #USERPROG := obj/testcase/hello
 #USERPROG := obj/testcase/hello-inline-asm
-#USERPROG := obj/testcase/hello-str
+USERPROG := obj/testcase/hello-str
 #USERPROG := obj/testcase/integral
 #USERPROG := obj/testcase/quadratic-eq
 #USERPROG := obj/testcase/start
