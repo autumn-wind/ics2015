@@ -103,14 +103,14 @@ void get_func_info(void) {
 		if(ELF32_ST_TYPE(syb->st_info) == STT_FUNC) {
 			if(func_num >= MAX_FUNC_NUM)
 				assert(0);
-				func_info[func_num].begin = syb->st_value;
-				func_info[func_num].end = syb->st_value + syb->st_size;
-				strcpy(func_info[func_num++].str, strtab + syb->st_name);
+			func_info[func_num].begin = syb->st_value;
+			func_info[func_num].end = syb->st_value + syb->st_size;
+			strcpy(func_info[func_num++].str, strtab + syb->st_name);
 		}
 	}
-	for(i = 0; i < func_num; ++i) {
-		printf("%d\t%d\t%s\n", func_info[i].begin, func_info[i].end, func_info[i].str);
-	}
+	/*for(i = 0; i < func_num; ++i) {*/
+		/*printf("%d\t%d\t%s\n", func_info[i].begin, func_info[i].end, func_info[i].str);*/
+	/*}*/
 }
 
 static int cmd_bt(char *args) {

@@ -2,9 +2,10 @@
 
 __attribute__((regparm(0))) FLOAT f2F(float a) {
 	int i;
-	for(i = 0; i < SCALE; ++i)
-		a *= 2;
-	return a;
+	/*for(i = 0; i < SCALE; ++i)*/
+		/*a *= 2;*/
+	/*return a;*/
+	return 0;
 }
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
