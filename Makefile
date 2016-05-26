@@ -58,7 +58,7 @@ count:
 ##### some convinient rules #####
 
 #USERPROG := obj/testcase/add
-#USERPROG := obj/testcase/add-longlong
+USERPROG := obj/testcase/add-longlong
 #USERPROG := obj/testcase/bit
 #USERPROG := obj/testcase/bubble-sort
 #USERPROG := obj/testcase/fact
@@ -90,7 +90,7 @@ count:
 #USERPROG := obj/testcase/hello
 #USERPROG := obj/testcase/hello-inline-asm
 #USERPROG := obj/testcase/hello-str
-USERPROG := obj/testcase/integral
+#USERPROG := obj/testcase/integral
 #USERPROG := obj/testcase/quadratic-eq
 #USERPROG := obj/testcase/start
 
