@@ -1,11 +1,37 @@
 #include "FLOAT.h"
 
+#define GET_SIGN(x) ((x & 0x80000000) >> 31)
+#define GET_E(x) ((x & 0x7F800000) >> 23)
+#define SET_E(x) ((x & 0x007FFFFF) | 0x00800000)
+
 __attribute__((regparm(0))) FLOAT f2F(float a) {
-	int i;
-	/*for(i = 0; i < SCALE; ++i)*/
-		/*a *= 2;*/
-	/*return a;*/
-	return 0;
+	int i = *(int *)&a;
+	int sign = GET_SIGN(i);
+	int e = GET_E(i);
+	if(e == 0) {
+		return 0;
+	}
+	else if(e == 255) {
+		nemu_assert(0);
+	} 
+	else {
+		int x = e - 127 + 16;
+		if(x < 0) 
+			i = 0;
+		else if(x == 0)
+			i = 1;
+		else {
+			i = SET_E(i);
+			if(x <= 23)
+				i = i >> (23 - x);
+			else if(x  <= 30)
+				i = i << (x - 23);
+			else
+				nemu_assert(0);
+		}
+		return sign ? -i : i;
+	}
+
 }
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {

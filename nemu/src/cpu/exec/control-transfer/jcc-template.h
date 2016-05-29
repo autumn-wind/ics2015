@@ -103,4 +103,14 @@ static void do_execute() {
 make_instr_helper(rel)
 #undef instr
 
+#define instr jns
+static void do_execute() {
+	if(cpu.SF == 0) {
+		cpu.eip += (&ops_decoded.src)->val; 
+	}
+}
+
+make_instr_helper(rel)
+#undef instr
+
 #include "cpu/exec/template-end.h"
