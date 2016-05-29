@@ -11,6 +11,7 @@ make_helper(jg_rel_b);
 make_helper(jge_rel_b);
 make_helper(jl_rel_b);
 make_helper(jb_rel_b);
+make_helper(js_rel_b);
 make_helper(jns_rel_b);
 
 make_helper(jbe_rel_v);
