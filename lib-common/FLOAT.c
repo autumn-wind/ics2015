@@ -4,7 +4,7 @@
 #define GET_E(x) ((x & 0x7F800000) >> 23)
 #define SET_E(x) ((x & 0x007FFFFF) | 0x00800000)
 
-__attribute__((regparm(0))) FLOAT f2F(float a) {
+FLOAT f2F(float a) {
 	int i = *(int *)&a;
 	int sign = GET_SIGN(i);
 	int e = GET_E(i);

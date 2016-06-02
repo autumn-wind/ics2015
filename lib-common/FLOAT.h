@@ -7,7 +7,7 @@
 
 typedef int FLOAT;
 
-FLOAT f2F(float) __attribute__((regparm(0)));
+FLOAT f2F(float);
 FLOAT F_mul_F(FLOAT, FLOAT);
 FLOAT F_div_F(FLOAT, FLOAT);
 FLOAT Fabs(FLOAT);

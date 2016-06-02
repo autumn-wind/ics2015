@@ -8,6 +8,9 @@ static void do_execute() {
 	if(temp & (0x1 << (1 * 8 - 1))) {
 		temp = temp | 0xFFFFFF00;
 	}
+	else {
+		temp = temp & 0x000000FF;
+	}
 	op_src->val = temp;
 
 	OPERAND_W(op_dest, op_src->val);
@@ -27,6 +30,9 @@ static void do_execute() {
 	unsigned int temp = op_src->val;
 	if(temp & (0x1 << (2 * 8 - 1))) {
 		temp = temp | 0xFFFF0000;
+	}
+	else {
+		temp = temp & 0x0000FFFF;
 	}
 	op_src->val = temp;
 

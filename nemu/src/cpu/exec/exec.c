@@ -20,7 +20,7 @@ static make_helper(_2byte_esc);
 /* 0x80 */
 make_group(group1_b,
 	inv, inv, inv, inv, 
-	inv, inv, inv, cmp_i2rm_b)
+	and_i2rm_b, inv, inv, cmp_i2rm_b)
 
 /* 0x81 */
 make_group(group1_v,
@@ -179,7 +179,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x3c */	inv, inv, inv, inv, 
 /* 0x40 */	inv, inv, inv, inv, 
 /* 0x44 */	cmove_rm2r_v, inv, inv, cmova_rm2r_v,
-/* 0x48 */	cmovs_rm2r_v, inv, inv, inv, 
+/* 0x48 */	cmovs_rm2r_v, cmovns_rm2r_v, inv, inv, 
 /* 0x4c */	inv, cmovge_rm2r_v, inv, inv, 
 /* 0x50 */	inv, inv, inv, inv, 
 /* 0x54 */	inv, inv, inv, inv,
@@ -193,10 +193,10 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x74 */	inv, inv, inv, inv,
 /* 0x78 */	inv, inv, inv, inv, 
 /* 0x7c */	inv, inv, inv, inv, 
-/* 0x80 */	inv, inv, inv, jae_rel_v,
+/* 0x80 */	inv, inv, jb_rel_v, jae_rel_v,
 /* 0x84 */	je_rel_v, jne_rel_v, jbe_rel_v, ja_rel_v,
-/* 0x88 */	inv, inv, inv, inv, 
-/* 0x8c */	jl_rel_v, inv, jle_rel_v, jg_rel_v, 
+/* 0x88 */	js_rel_v, jns_rel_v, inv, inv, 
+/* 0x8c */	jl_rel_v, jge_rel_v, jle_rel_v, jg_rel_v, 
 /* 0x90 */	inv, inv, inv, inv,
 /* 0x94 */	inv, setne_rm_b, inv, inv,
 /* 0x98 */	inv, inv, inv, inv, 

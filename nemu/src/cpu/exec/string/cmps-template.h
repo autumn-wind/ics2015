@@ -3,8 +3,15 @@
 #define instr cmps
 
 static void do_execute() {
-	unsigned long long left = swaddr_read(cpu.esi, DATA_BYTE);
-	unsigned long long right = swaddr_read(cpu.edi, DATA_BYTE);
+	unsigned int mask = 0;
+	switch(DATA_BYTE) {
+		case 1:	mask = 0x000000FF;break;
+		case 2: mask = 0x0000FFFF;break;
+		case 4: mask = 0xFFFFFFFF;break;
+		default:assert(0);
+	}
+	unsigned long long left = swaddr_read(cpu.esi, DATA_BYTE) & mask;
+	unsigned long long right = swaddr_read(cpu.edi, DATA_BYTE) & mask;
 	unsigned long long result = left - right;
 	set_CF(result, DATA_BYTE);
 	set_ZF(result, DATA_BYTE);
