@@ -43,7 +43,7 @@ void cpu_exec(volatile uint32_t n) {
 	}
 	nemu_state = RUNNING;
 
-	/*uint32_t instr_executed = 0;*/
+	uint32_t instr_executed = 0;
 #ifdef DEBUG
 	volatile uint32_t n_temp = n;
 #endif
@@ -64,7 +64,7 @@ void cpu_exec(volatile uint32_t n) {
 		/*printf("%x\n", cpu.eip);*/
 		int instr_len = exec(cpu.eip);
 		/*printf("%d\n", instr_len);*/
-		/*printf("%d\n", ++instr_executed);*/
+		printf("%d\n", ++instr_executed);
 
 		cpu.eip += instr_len;
 

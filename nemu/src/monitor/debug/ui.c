@@ -135,6 +135,10 @@ static int cmd_bt(char *args) {
 }
 
 static int cmd_d(char *args) {
+	if(!args) {
+		printf("Please input right args!\n");
+		return 0;
+	}
 	int no = -1;
 	if(sscanf(args, "%d", &no) < 1){
 		printf("Invalid watchpoint number.\n");
@@ -148,6 +152,10 @@ static int cmd_d(char *args) {
 }
 
 static int cmd_w(char *args) {
+	if(!args) {
+		printf("Please input right args!\n");
+		return 0;
+	}
 	while(*args == ' ')	++args;
 	WP *wp = new_wp();
 	if(!wp) {
@@ -177,6 +185,10 @@ static int cmd_w(char *args) {
 }
 
 static int cmd_p(char *args) {
+	if(!args) {
+		printf("Please input right args!\n");
+		return 0;
+	}
 	static uint32_t count = 0;
 	bool success;
 	uint32_t res = expr(args, &success);
@@ -184,12 +196,16 @@ static int cmd_p(char *args) {
 		printf("Invalid expression.\n");
 	}
 	else {
-		printf("$%d = %u\t0x%08x\n", ++count, res, res);
+		printf("$%d = %d\t0x%08x\n", ++count, res, res);
 	}
 	return 0;
 }
 
 static int cmd_x(char *args) {
+	if(!args) {
+		printf("Please input right args!\n");
+		return 0;
+	}
 	uint32_t num, addr, i, j;
 	char *n = strtok(NULL, " ");
 	if(sscanf(n, "%u", &num) < 1){
@@ -226,6 +242,10 @@ static void print_regs() {
 
 static int cmd_info(char *args) {
 	char *arg = strtok(NULL, " ");
+	if(!args) {
+		printf("Please input right args!\n");
+		return 0;
+	}
 	if(strcmp(arg, "r") == 0)
 		print_regs();
 	else if(strcmp(arg, "w") == 0)
@@ -236,6 +256,10 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_si(char *args) {
+	if(!args) {
+		printf("Please input right args!\n");
+		return 0;
+	}
 	int steps;
 	/*printf("%d\n", strlen(args));*/
 	sscanf(args, "%d", &steps);

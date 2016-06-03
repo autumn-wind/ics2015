@@ -8,5 +8,5 @@ $(FLOAT): $(FLOAT_OBJ)
 # TODO: write a rule for generating $(FLOAT_OBJ)
 $(FLOAT_OBJ): ./lib-common/FLOAT.c ./lib-common/FLOAT.h
 	@mkdir -p obj/lib-common
-	gcc ./lib-common/FLOAT.c -c -m32 -fno-builtin -I ./lib-common -O2 -o ./obj/lib-common/FLOAT.o
+	gcc ./lib-common/FLOAT.c -c -m32 -fno-builtin -I ./lib-common -O2 -o ./obj/lib-common/FLOAT.o -nostdlib -lgcc
 

@@ -14,20 +14,25 @@ FLOAT Fabs(FLOAT);
 FLOAT sqrt(FLOAT);
 FLOAT pow(FLOAT, FLOAT);
 
-static inline int F2int(FLOAT a) {
-	return a >> SCALE;
-}
+int F2int(FLOAT);
+FLOAT int2F(int);
+FLOAT F_mul_int(FLOAT, int);
+FLOAT F_div_int(FLOAT, int);
 
-static inline FLOAT int2F(int a) {
-	return a << SCALE;
-}
+//static inline int F2int(FLOAT a) {
+	//return a >> SCALE;
+//}
 
-static inline FLOAT F_mul_int(FLOAT a, int b) {
-	return a * b;
-}
+//static inline FLOAT int2F(int a) {
+	//return a << SCALE;
+//}
 
-static inline FLOAT F_div_int(FLOAT a, int b) {
-	return a / b;
-}
+//static inline FLOAT F_mul_int(FLOAT a, int b) {
+	//return a * b;
+//}
+
+//static inline FLOAT F_div_int(FLOAT a, int b) {
+	//return a / b;
+//}
 
 #endif

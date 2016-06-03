@@ -35,13 +35,15 @@ FLOAT f2F(float a) {
 }
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	long long r = a * b;
+	long long r = (long long)a * b;
 	return r >> SCALE;
+	/*return a * (b >> SCALE);*/
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
-	FLOAT r = a / b;
-	return r << SCALE;
+	long long r = (long long)a << SCALE;
+	return r / b;
+	/*return a / (b >> SCALE);*/
 }
 
 FLOAT Fabs(FLOAT a) {
@@ -70,5 +72,21 @@ FLOAT pow(FLOAT x, FLOAT y) {
 	} while(Fabs(dt) > f2F(1e-4));
 
 	return t;
+}
+
+int F2int(FLOAT a) {
+	return a >> SCALE;
+}
+
+FLOAT int2F(int a) {
+	return a << SCALE;
+}
+
+FLOAT F_mul_int(FLOAT a, int b) {
+	return a * b;
+}
+
+FLOAT F_div_int(FLOAT a, int b) {
+	return a / b;
 }
 
