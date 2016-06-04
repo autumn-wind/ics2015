@@ -64,7 +64,7 @@ void cpu_exec(volatile uint32_t n) {
 		/*printf("%x\n", cpu.eip);*/
 		int instr_len = exec(cpu.eip);
 		/*printf("%d\n", instr_len);*/
-		printf("%d\n", ++instr_executed);
+		++instr_executed;
 
 		cpu.eip += instr_len;
 
@@ -83,6 +83,7 @@ void cpu_exec(volatile uint32_t n) {
 
 		if(nemu_state != RUNNING) { return; }
 	}
+	printf("%d\n", instr_executed);
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
 }

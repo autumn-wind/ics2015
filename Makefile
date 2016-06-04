@@ -91,9 +91,9 @@ count:
 
 #USERPROG := obj/testcase/hello
 #USERPROG := obj/testcase/hello-inline-asm
-USERPROG := obj/testcase/integral
+#USERPROG := obj/testcase/integral
 #USERPROG := obj/testcase/float_test
-#USERPROG := obj/testcase/quadratic-eq
+USERPROG := obj/testcase/quadratic-eq
 #USERPROG := obj/testcase/start
 
 ENTRY := $(USERPROG)

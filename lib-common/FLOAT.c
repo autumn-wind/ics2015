@@ -31,7 +31,6 @@ FLOAT f2F(float a) {
 		}
 		return sign ? -i : i;
 	}
-
 }
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
@@ -41,12 +40,27 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
-	long long r = (long long)a << SCALE;
-	return r / b;
-	/*return a / (b >> SCALE);*/
+	asm volatile(
+			"shl $0x10, %1\n\t"
+			"sar $0x10, %2\n\t"
+			"idivl %3"
+			:"=a"(a)
+			:"0"(a), "d"(a), "g"(b)
+			:"memory");
+	return a;
+
+	/*FLOAT d = a >> 16;*/
+	/*a = a << 16;*/
+	/*asm volatile(*/
+			/*"idivl %3"*/
+			/*:"=a"(a)*/
+			/*:"0"(a), "d"(d), "g"(b)*/
+			/*:"memory");*/
+	/*return a;*/
 }
 
 FLOAT Fabs(FLOAT a) {
+	/*set_bp();*/
 	return a >= 0 ? a : -a;
 }
 
