@@ -65,7 +65,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step N instruction exactly", cmd_si},
-	{ "info", "List of integer registers and their contents", cmd_info},
+	{ "info", "List of integer registers and watchpoints", cmd_info},
 	{ "x", "Print ram", cmd_x},
 	{ "p", "Print value", cmd_p},
 	{ "w", "Set watchpoint", cmd_w},
