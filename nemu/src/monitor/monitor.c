@@ -6,6 +6,9 @@ extern uint8_t entry [];
 extern uint32_t entry_len;
 extern char *exec_file;
 
+extern void level_1_cache_init(void);
+extern void level_2_cache_init(void);
+
 void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_list();
@@ -79,6 +82,17 @@ void restart() {
 #ifdef USE_RAMDISK
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
+#endif
+
+#ifdef USE_L1_CACHE
+	/*use L1 cache*/
+	level_1_cache_init();
+#endif
+
+#ifdef USE_L2_CACHE
+	/*use L1 and L2 cache*/
+	level_1_cache_init();
+	level_2_cache_init();
 #endif
 
 	/* Read the entry code into memory. */

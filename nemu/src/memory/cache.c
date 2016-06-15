@@ -10,7 +10,9 @@ uint32_t hwaddr_read(hwaddr_t, size_t);
 void level_1_cache_write(hwaddr_t, size_t, uint32_t);
 void level_2_cache_write(hwaddr_t, size_t, uint32_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
-void hwaddr_write(hwaddr_t, size_t uint32_t);
+void hwaddr_write(hwaddr_t, size_t, uint32_t);
+
+uint64_t time_consuming = 0;
 
 #define CACHE_LEVEL		 1
 #define CACHE_SIZE		 (64 * 1024)

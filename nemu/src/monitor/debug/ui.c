@@ -29,8 +29,10 @@ char* rl_gets() {
 	return line_read;
 }
 
+extern uint64_t time_consuming;
 static int cmd_c(char *args) {
 	cpu_exec(-1);
+	printf("%llu\n", time_consuming);
 	return 0;
 }
 

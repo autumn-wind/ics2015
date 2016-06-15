@@ -1,17 +1,25 @@
 #include "common.h"
-#include <time.h>
+#include "cache.h"
 
-uint32_t dram_read(hwaddr_t, size_t);
+uint32_t dram_read(hwaddr_t, size_t); //read 4 bytes each time
 void dram_write(hwaddr_t, size_t, uint32_t);
 
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
+#if defined(USE_L1_CACHE) || defined(USE_L2_CACHE)
+	return level_1_cache_read(addr, len);
+#else
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+#endif
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+#if defined(USE_L1_CACHE) || defined(USE_L2_CACHE)
+	level_1_cache_write(addr, len, data);
+#else
 	dram_write(addr, len, data);
+#endif
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
