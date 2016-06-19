@@ -10,8 +10,8 @@ static void do_execute() {
 		case 4: mask = 0xFFFFFFFF;break;
 		default:assert(0);
 	}
-	unsigned long long left = swaddr_read(cpu.esi, DATA_BYTE) & mask;
-	unsigned long long right = swaddr_read(cpu.edi, DATA_BYTE) & mask;
+	unsigned long long left = swaddr_read(cpu.esi, DATA_BYTE, DS) & mask;
+	unsigned long long right = swaddr_read(cpu.edi, DATA_BYTE, ES) & mask;
 	unsigned long long result = left - right;
 	set_CF(result, DATA_BYTE);
 	set_ZF(result, DATA_BYTE);

@@ -3,8 +3,8 @@
 #define instr movs
 
 static void do_execute() {
-	uint32_t temp = swaddr_read(cpu.esi, DATA_BYTE);
-	swaddr_write(cpu.edi, DATA_BYTE, temp);
+	uint32_t temp = swaddr_read(cpu.esi, DATA_BYTE, DS);
+	swaddr_write(cpu.edi, DATA_BYTE, temp, ES);
 	int8_t sign = 1;
 	if(cpu.DF != 0)
 		sign = -1;

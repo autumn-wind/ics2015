@@ -328,7 +328,7 @@ uint32_t eval(Token *tokens, int p, int q, bool *success){
 			case AND: return val1 && val2;break;
 			case XOR: return val1 || val2;break;
 			case NOT: return !val2;break;
-			case DEREF: return swaddr_read(val2, 4);break;
+			case DEREF: return swaddr_read(val2, 4, DS);break;
 			default: assert(0);break;
 		}
 	}

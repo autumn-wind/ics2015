@@ -10,7 +10,7 @@ static void do_execute() {
 		case 4: temp = cpu.eax & 0xFFFFFFFF;break;
 		default: assert(0);
 	}
-	swaddr_write(cpu.edi, DATA_BYTE, temp);
+	swaddr_write(cpu.edi, DATA_BYTE, temp, ES);
 	int8_t sign = 1;
 	if(cpu.DF != 0)
 		sign = -1;

@@ -127,10 +127,10 @@ static int cmd_bt(char *args) {
 			}
 		}
 		for(i = 0; i < 16; i += 4) {
-			printf("0x%08x\t", swaddr_read(ebp + 8 + i, 4));
+			printf("0x%08x\t", swaddr_read(ebp + 8 + i, 4, SS));
 		}
-		eip = swaddr_read(ebp + 4, 4);
-		ebp = swaddr_read(ebp, 4);
+		eip = swaddr_read(ebp + 4, 4, SS);
+		ebp = swaddr_read(ebp, 4, SS);
 		printf("\n");
 	}
 	return 0;
@@ -224,7 +224,7 @@ static int cmd_x(char *args) {
 	for(i = 0; i < num; i += NR_RAM_UNIT_EACH_LINE) {
 		printf("0x%08x:\t", addr + i * 4);
 		for(j = 0; i + j< num && j < NR_RAM_UNIT_EACH_LINE; ++j)
-			printf("0x%08x\t", swaddr_read(addr + (i + j) * 4, 4));
+			printf("0x%08x\t", swaddr_read(addr + (i + j) * 4, 4, DS));
 		printf("\n");
 	}
 	return 0;
@@ -240,6 +240,9 @@ static void print_regs() {
 	printf("esi\t\t0x%08x\t%d\n", cpu.esi, cpu.esi);
 	printf("edi\t\t0x%08x\t%d\n", cpu.edi, cpu.edi);
 	printf("eip\t\t0x%08x\t%d\n", cpu.eip, cpu.eip);
+	printf("gdtr.limit\t\t0x%04x\t%d\n", cpu.gdtr.limit, cpu.gdtr.limit);
+	printf("gdtr.base\t\t0x%08x\t%d\n", cpu.gdtr.base, cpu.gdtr.base);
+	printf("cr0\t\t0x%08x\t%d\n", cpu.cr0, cpu.cr0);
 }
 
 static int cmd_info(char *args) {

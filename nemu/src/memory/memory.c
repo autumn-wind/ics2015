@@ -1,5 +1,6 @@
 #include "common.h"
 #include "cache.h"
+#include "segtranslate.h"
 
 uint32_t dram_read(hwaddr_t, size_t); //read 4 bytes each time
 void dram_write(hwaddr_t, size_t, uint32_t);
@@ -30,17 +31,19 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	hwaddr_write(addr, len, data);
 }
 
-uint32_t swaddr_read(swaddr_t addr, size_t len) {
+uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
-	return lnaddr_read(addr, len);
+	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
+	return lnaddr_read(lnaddr, len);
 }
 
-void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
+void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
-	lnaddr_write(addr, len, data);
+	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
+	lnaddr_write(lnaddr, len, data);
 }
 

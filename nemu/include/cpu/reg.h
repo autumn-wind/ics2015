@@ -46,6 +46,26 @@ typedef struct {
 		uint32_t EFLAGS;
 	};
 
+	union {
+		struct {
+			uint32_t PE				:1;
+			uint32_t dont_care4     :30;
+			uint32_t PG				:1;
+		};
+		uint32_t cr0;
+	};
+
+	struct {
+		uint16_t limit;
+		lnaddr_t base;
+	} gdtr;
+
+	struct {
+		uint16_t selector;
+		uint32_t base;
+		uint32_t limit;
+	} cs, ds, es, ss;
+
 } CPU_state;
 
 extern CPU_state cpu;

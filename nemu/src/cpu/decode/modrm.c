@@ -4,17 +4,36 @@
 int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	assert(m->mod != 3);
 
+	/*default use DS as segment selector*/
+	rm->sreg = DS;
+
+	/*use SS as segment selector*/
+	if(m->R_M == R_EBP) 
+		if(m->mod == 1 || m->mod == 2)
+			rm->sreg = SS;
+	
 	int32_t disp;
 	int instr_len, disp_offset, disp_size = 4;
 	int base_reg = -1, index_reg = -1, scale = 0;
 	swaddr_t addr = 0;
 
 	if(m->R_M == R_ESP) {
+		/* has SIB */
 		SIB s;
 		s.val = instr_fetch(eip + 1, 1);
 		base_reg = s.base;
 		disp_offset = 2;
 		scale = s.ss;
+
+		if(m->mod == 0)
+			if(s.base == R_ESP)
+				 /* use SS as segment selector */
+				rm->sreg = SS;
+
+		if(m->mod == 1 || m->mod == 2)
+			if(s.base == R_ESP || s.base == R_EBP)
+				/* use SS as segment selector */
+				rm->sreg = SS;
 
 		if(s.index != R_ESP) { index_reg = s.index; }
 	}
@@ -109,7 +128,7 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	}
 	else {
 		int instr_len = load_addr(eip, &m, rm);
-		rm->val = swaddr_read(rm->addr, rm->size);
+		rm->val = swaddr_read(rm->addr, rm->size, rm->sreg);
 		return instr_len;
 	}
 }

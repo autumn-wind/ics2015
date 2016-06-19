@@ -100,9 +100,11 @@ void restart() {
 
 	/* Set the initial instruction pointer. */
 	cpu.eip = ENTRY_START;
-	cpu.esp = ENTRY_START;
 	cpu.EFLAGS = 0x02;
-	cpu.ebp = 0;
+	cpu.cr0 = 0;
+	cpu.cs.selector = cpu.ds.selector = cpu.es.selector = cpu.ss.selector = 0;
+	cpu.cs.base = 0;
+	cpu.cs.limit = 0xFFFFFFFF;
 
 	/* Initialize DRAM. */
 	init_ddr3();

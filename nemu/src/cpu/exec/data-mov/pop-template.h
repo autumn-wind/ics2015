@@ -3,7 +3,7 @@
 #define instr pop
 
 static void do_execute() {
-	OPERAND_W(op_src, swaddr_read(cpu.esp, 4));
+	OPERAND_W(op_src, swaddr_read(cpu.esp, 4, SS));
 	print_asm_template2();
 	cpu.esp += 4;
 }
