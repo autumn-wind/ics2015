@@ -240,9 +240,14 @@ static void print_regs() {
 	printf("esi\t\t0x%08x\t%d\n", cpu.esi, cpu.esi);
 	printf("edi\t\t0x%08x\t%d\n", cpu.edi, cpu.edi);
 	printf("eip\t\t0x%08x\t%d\n", cpu.eip, cpu.eip);
-	printf("gdtr.limit\t\t0x%04x\t%d\n", cpu.gdtr.limit, cpu.gdtr.limit);
-	printf("gdtr.base\t\t0x%08x\t%d\n", cpu.gdtr.base, cpu.gdtr.base);
-	printf("cr0\t\t0x%08x\t%d\n", cpu.cr0, cpu.cr0);
+	printf("gdtr.limit\t0x%04x\n", cpu.gdtr.limit);
+	printf("gdtr.base\t0x%08x\n", cpu.gdtr.base);
+	printf("cr0\t\t0x%08x\n", cpu.cr0);
+	printf("cr3\t\t0x%08x\n", cpu.cr3.val);
+	printf("cs\t\t0x%04x\t0x%08x\t0x%08x\n", cpu.cs.selector, cpu.cs.base, cpu.cs.limit);
+	printf("ds\t\t0x%04x\t0x%08x\t0x%08x\n", cpu.ds.selector, cpu.ds.base, cpu.ds.limit);
+	printf("es\t\t0x%04x\t0x%08x\t0x%08x\n", cpu.es.selector, cpu.es.base, cpu.es.limit);
+	printf("ss\t\t0x%04x\t0x%08x\t0x%08x\n", cpu.ss.selector, cpu.ss.base, cpu.ss.limit);
 }
 
 static int cmd_info(char *args) {

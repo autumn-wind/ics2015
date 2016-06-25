@@ -14,6 +14,18 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * For more details about the register encoding scheme, see i386 manual.
  */
 
+/* the Control Register 3 (physical address of page directory) */
+typedef union CR3 {
+	struct {
+		uint32_t pad0                : 3;
+		uint32_t page_write_through  : 1;
+		uint32_t page_cache_disable  : 1;
+		uint32_t pad1                : 7;
+		uint32_t page_directory_base : 20;
+	};
+	uint32_t val;
+} CR3;
+
 typedef struct {
 	union {
 		union {
@@ -54,6 +66,8 @@ typedef struct {
 		};
 		uint32_t cr0;
 	};
+
+	CR3 cr3;
 
 	struct {
 		uint16_t limit;

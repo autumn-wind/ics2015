@@ -3,7 +3,7 @@
 
 #define USE_RAMDISK
 //#define USE_L1_CACHE
-//#define USE_L2_CACHE
+//#define USE_L2_CACHE //when defined, macro USE_L1_CACHE must be undefined
 
 /* You will define this macro in PA4 */
 //#define HAS_DEVICE
@@ -37,10 +37,5 @@ typedef union {
 #define false 0
 #define true 1
 #define EXPR_LEN 64
-
-#define ES 0
-#define CS 1
-#define SS 2
-#define DS 3
 
 #endif

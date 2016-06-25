@@ -5,6 +5,11 @@
 
 #define HW_MEM_SIZE (128 * 1024 * 1024)
 
+#define ES 0
+#define CS 1
+#define SS 2
+#define DS 3
+
 extern uint8_t *hw_mem;
 
 /* convert the hardware address in the test program to virtual address in NEMU */
@@ -23,5 +28,14 @@ uint32_t hwaddr_read(hwaddr_t, size_t);
 void swaddr_write(swaddr_t, size_t, uint32_t, uint8_t);
 void lnaddr_write(lnaddr_t, size_t, uint32_t);
 void hwaddr_write(hwaddr_t, size_t, uint32_t);
+
+typedef union page_table_entry {
+	struct {
+		uint32_t present			:1;
+		uint32_t dont_care			:11;
+		uint32_t page_frame_base	:20;
+	};
+	uint32_t val;
+} page_table_entry;
 
 #endif

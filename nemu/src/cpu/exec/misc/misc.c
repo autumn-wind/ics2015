@@ -38,14 +38,26 @@ make_helper(lgdt) {
 }
 
 make_helper(mov_from_cr0) {
-	char reg_index = (swaddr_read(eip + 1, 1, CS) & 0x38) >> 3;
-	reg_l(reg_index) = cpu.cr0;
+	char modrm_byte = swaddr_read(eip + 1, 1, CS);
+	char reg_index = modrm_byte & 0x07;
+	char special_reg_index = (modrm_byte & 0x38) >> 3;
+	switch(special_reg_index) {
+		case 0:	reg_l(reg_index) = cpu.cr0;break;
+		case 3: reg_l(reg_index) = cpu.cr3.val;break;
+		default:assert(0);
+	}
 	return 1 + 1;
 }
 
 make_helper(mov_to_cr0) {
-	char reg_index = (swaddr_read(eip + 1, 1, CS) & 0x38) >> 3;
-	cpu.cr0 = reg_l(reg_index);
+	char modrm_byte = swaddr_read(eip + 1, 1, CS);
+	char reg_index = modrm_byte & 0x07;
+	char special_reg_index = (modrm_byte & 0x38) >> 3;
+	switch(special_reg_index) {
+		case 0:	cpu.cr0 = reg_l(reg_index);break;
+		case 3: cpu.cr3.val = reg_l(reg_index);break;
+		default:assert(0);
+	}
 	return 1 + 1;
 }
 
@@ -53,4 +65,9 @@ make_helper(ljmp) {
 	cpu.eip = swaddr_read(eip + 1, 4, CS);
 	cpu.cs.selector = swaddr_read(eip + 1 + 4, 2, CS);
 	return 0;
+}
+
+make_helper(std) {
+	cpu.DF = 1;
+	return 1;
 }

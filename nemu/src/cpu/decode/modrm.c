@@ -1,15 +1,16 @@
 #include "cpu/decode/modrm.h"
 #include "cpu/helper.h"
 
+/* calculate the swaddr and related segment of the memory operand */
 int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	assert(m->mod != 3);
 
 	/*default use DS as segment selector*/
 	rm->sreg = DS;
 
-	/*use SS as segment selector*/
 	if(m->R_M == R_EBP) 
 		if(m->mod == 1 || m->mod == 2)
+			/*use SS as segment selector*/
 			rm->sreg = SS;
 	
 	int32_t disp;
