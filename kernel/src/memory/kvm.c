@@ -33,25 +33,25 @@ void init_page(void) {
 	 * If you do not understand it, refer to the C code below.
 	 */
 
-	asm volatile ("std;\
-	 1: stosl;\
-		subl %0, %%eax;\
-		jge 1b" : : 
-		"i"(PAGE_SIZE), "a"((PHY_MEM - PAGE_SIZE) | 0x7), "D"(ptable - 1));
+	/*asm volatile ("std;\*/
+	 /*1: stosl;\*/
+		/*subl %0, %%eax;\*/
+		/*jge 1b" : : */
+		/*"i"(PAGE_SIZE), "a"((PHY_MEM - PAGE_SIZE) | 0x7), "D"(ptable - 1));*/
 
 
-	/*
-		===== referenced code for the inline assembly above =====
+	
+		/*===== referenced code for the inline assembly above =====*/
 
-		uint32_t pframe_addr = PHY_MEM - PAGE_SIZE;
+		int32_t pframe_addr = PHY_MEM - PAGE_SIZE;
 		ptable --;
 
-		// fill PTEs reversely
+		 /*fill PTEs reversely*/
 		for (; pframe_addr >= 0; pframe_addr -= PAGE_SIZE) {
 			ptable->val = make_pte(pframe_addr);
 			ptable --;
 		}
-	*/
+	
 
 
 	/* make CR3 to be the entry of page directory */

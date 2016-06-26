@@ -4,6 +4,7 @@
 #include "common.h"
 
 #define HW_MEM_SIZE (128 * 1024 * 1024)
+#define TLB_LINE_NR 64
 
 #define ES 0
 #define CS 1
@@ -37,5 +38,13 @@ typedef union page_table_entry {
 	};
 	uint32_t val;
 } page_table_entry;
+
+typedef struct TLB_LINE {
+	uint32_t pte;
+	struct {
+		uint32_t tag	:20;
+		uint32_t valid	:1;
+	};
+} TLB_LINE;
 
 #endif
