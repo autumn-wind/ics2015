@@ -8,7 +8,10 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 
 /* Memory accessing interfaces */
 
+uint64_t hwaddr_access_count = 0;
+
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
+	hwaddr_access_count += 1;
 #if defined(USE_L1_CACHE) || defined(USE_L2_CACHE)
 	return level_1_cache_read(addr, len);
 #else
@@ -17,6 +20,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+	hwaddr_access_count += 1;
 #if defined(USE_L1_CACHE) || defined(USE_L2_CACHE)
 	level_1_cache_write(addr, len, data);
 #else

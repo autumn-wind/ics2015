@@ -2,7 +2,15 @@
 #include <stdlib.h>
 #include <time.h>
 
+#ifdef USE_TLB
+
 TLB_LINE tlb[TLB_LINE_NR];
+
+void tlb_init() {
+	int i;
+	for(i = 0; i < TLB_LINE_NR; ++i)
+		tlb[i].valid = 0;
+}
 
 int32_t tlb_search(lnaddr_t addr) {
 	int i;
@@ -36,3 +44,5 @@ void tlb_fill(lnaddr_t addr, uint32_t pte) {
 		tlb[i].valid = 1;
 	}
 }
+
+#endif

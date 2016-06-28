@@ -1,5 +1,4 @@
 #include "nemu.h"
-#include "tlb.h"
 
 hwaddr_t page_translate(lnaddr_t addr) {
 	assert(!(cpu.PE == 0 && cpu.PG == 1));
@@ -11,6 +10,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 	page_table_entry pte;
 	uint32_t page_offset = (addr & 0x00000FFF);
 
+#ifdef USE_TLB
 	int32_t tlb_idx = tlb_search(addr);
 
 	if(tlb_idx != -1) {
@@ -20,6 +20,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 	}
 	else {
 		/*tlb not hit, must page walk*/
+#endif
 		uint32_t pd_idx = (addr & 0xFFC00000) >> 22;
 		uint32_t pg_idx = (addr & 0x003FF000) >> 12;
 
@@ -33,9 +34,11 @@ hwaddr_t page_translate(lnaddr_t addr) {
 		hwaddr_t pg_base = pde.page_frame_base << 12;
 
 		pte.val = hwaddr_read(pg_base + (pg_idx << 2), 4);
+#ifdef USE_TLB
 		/*fill tlb a new line*/
 		tlb_fill(addr, pte.val);
 	}
+#endif
 
 	assert(pte.present);
 	hwaddr_t page_base = pte.page_frame_base << 12;

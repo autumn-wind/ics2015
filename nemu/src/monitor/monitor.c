@@ -95,6 +95,10 @@ void restart() {
 	level_2_cache_init();
 #endif
 
+#ifdef USE_TLB
+	tlb_init();
+#endif
+
 	/* Read the entry code into memory. */
 	load_entry();
 

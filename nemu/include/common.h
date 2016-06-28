@@ -4,6 +4,7 @@
 #define USE_RAMDISK
 //#define USE_L1_CACHE
 //#define USE_L2_CACHE //when defined, macro USE_L1_CACHE must be undefined
+#define USE_TLB
 
 /* You will define this macro in PA4 */
 //#define HAS_DEVICE

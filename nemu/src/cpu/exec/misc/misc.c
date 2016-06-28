@@ -89,7 +89,11 @@ make_helper(mov_to_cr0) {
 	char special_reg_index = (modrm_byte & 0x38) >> 3;
 	switch(special_reg_index) {
 		case 0:	cpu.cr0 = reg_l(reg_index);break;
-		case 3: cpu.cr3.val = reg_l(reg_index);break;
+		case 3: cpu.cr3.val = reg_l(reg_index);
+#ifdef USE_TLB
+				tlb_init();
+#endif
+				break;
 		default:assert(0);
 	}
 	return 1 + 1;

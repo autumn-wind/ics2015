@@ -3,6 +3,7 @@
 
 int32_t tlb_search(lnaddr_t addr);
 void tlb_fill(lnaddr_t addr, uint32_t pte);
+void tlb_init();
 
 extern TLB_LINE tlb[TLB_LINE_NR];
 

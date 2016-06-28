@@ -35,6 +35,8 @@ void do_int3() {
 	nemu_state = STOP;
 }
 
+extern uint64_t hwaddr_access_count;
+
 /* Simulate how the CPU works. */
 void cpu_exec(volatile uint32_t n) {
 	if(nemu_state == END) {
@@ -81,9 +83,12 @@ void cpu_exec(volatile uint32_t n) {
 		if(check_watchpoints() > 0)
 			nemu_state = STOP;
 
-		if(nemu_state != RUNNING) { return; }
+		if(nemu_state != RUNNING) { 
+			printf("number of instrction executed: %d\n", instr_executed);
+			printf("number of times of accessing hwaddr: %llu\n", hwaddr_access_count);
+			return; 
+		}
 	}
-	printf("%d\n", instr_executed);
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
 }
