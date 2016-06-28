@@ -75,6 +75,11 @@ typedef struct {
 	} gdtr;
 
 	struct {
+		uint16_t limit;
+		lnaddr_t base;
+	} idtr;
+
+	struct {
 		uint16_t selector;
 		uint32_t base;
 		uint32_t limit;

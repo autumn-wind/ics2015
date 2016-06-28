@@ -26,7 +26,10 @@ hwaddr_t page_translate(lnaddr_t addr) {
 		hwaddr_t pd_base = cpu.cr3.page_directory_base << 12;
 
 		pde.val = hwaddr_read(pd_base + (pd_idx << 2), 4);
-		assert(pde.present);
+		if(pde.present == 0) {
+			printf("eip = 0x%08x\n", cpu.eip);
+			assert(0);
+		}
 		hwaddr_t pg_base = pde.page_frame_base << 12;
 
 		pte.val = hwaddr_read(pg_base + (pg_idx << 2), 4);

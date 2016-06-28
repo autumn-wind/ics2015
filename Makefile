@@ -77,7 +77,7 @@ count:
 #USERPROG := obj/testcase/mul-longlong
 #USERPROG := obj/testcase/pascal
 #USERPROG := obj/testcase/prime
-USERPROG := obj/testcase/quick-sort
+#USERPROG := obj/testcase/quick-sort
 #USERPROG := obj/testcase/select-sort
 #USERPROG := obj/testcase/shuixianhua
 #USERPROG := obj/testcase/sum
@@ -89,14 +89,14 @@ USERPROG := obj/testcase/quick-sort
 #USERPROG := obj/testcase/string
 #USERPROG := obj/testcase/hello-str
 
-#USERPROG := obj/testcase/hello
+USERPROG := obj/testcase/hello
 #USERPROG := obj/testcase/hello-inline-asm
 #USERPROG := obj/testcase/integral
 #USERPROG := obj/testcase/float_test
 #USERPROG := obj/testcase/quadratic-eq
 #USERPROG := obj/testcase/start
 
-ENTRY := $(USERPROG)
+#ENTRY := $(USERPROG)
 ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)

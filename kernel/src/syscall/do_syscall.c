@@ -28,6 +28,15 @@ void do_syscall(TrapFrame *tf) {
 		case SYS_brk: sys_brk(tf); break;
 
 		/* TODO: Add more system calls. */
+		case SYS_write:
+			if(tf->ebx == 1) {
+				asm volatile (".byte 0xd6" : : "a"(2), "c"(tf->ecx), "d"(tf->edx));
+			}
+			else {
+				assert(0);
+			}
+			tf->eax = tf->edx;
+			break;
 
 		default: panic("Unhandled system call: id = %d", tf->eax);
 	}

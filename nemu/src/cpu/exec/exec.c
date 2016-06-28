@@ -19,7 +19,7 @@ static make_helper(_2byte_esc);
 	
 /* 0x80 */
 make_group(group1_b,
-	inv, inv, inv, inv, 
+	inv, or_i2rm_b, inv, inv, 
 	and_i2rm_b, inv, inv, cmp_i2rm_b)
 
 /* 0x81 */
@@ -87,7 +87,7 @@ make_group(group6,
 	inv, inv, inv, inv)
 
 make_group(group7,
-	inv, inv, lgdt, inv, 
+	inv, inv, lgdt, lidt, 
 	inv, inv, inv, inv)
 
 
@@ -112,13 +112,13 @@ helper_fun opcode_table [256] = {
 /* 0x3c */	cmp_i2a_b, cmp_i2a_v, inv, inv,
 /* 0x40 */	inc_r_v, inc_r_v, inc_r_v, inc_r_v,
 /* 0x44 */	inc_r_v, inc_r_v, inc_r_v, inc_r_v,
-/* 0x48 */	inv, inv, inv, inv,
-/* 0x4c */	inv, inv, inv, inv,
+/* 0x48 */	dec_r_v, dec_r_v, dec_r_v, dec_r_v,
+/* 0x4c */	dec_r_v, dec_r_v, dec_r_v, dec_r_v,
 /* 0x50 */	push_r_v, push_r_v, push_r_v, push_r_v,
 /* 0x54 */	push_r_v, push_r_v, push_r_v, push_r_v,
 /* 0x58 */	pop_r_v, pop_r_v, pop_r_v, pop_r_v,
 /* 0x5c */	pop_r_v, pop_r_v, pop_r_v, pop_r_v,
-/* 0x60 */	inv, inv, inv, inv,
+/* 0x60 */	pusha, popa, inv, inv,
 /* 0x64 */	inv, inv, data_size, inv,
 /* 0x68 */	push_i_v, imul_i_rm2r_v, push_i_b, imul_si_rm2r_v,
 /* 0x6c */	inv, inv, inv, inv,
@@ -145,11 +145,11 @@ helper_fun opcode_table [256] = {
 /* 0xc0 */	group2_i_b, group2_i_v, ret_i, ret,
 /* 0xc4 */	inv, inv, mov_i2rm_b, mov_i2rm_v,
 /* 0xc8 */	inv, leave, inv, inv,
-/* 0xcc */	int3, inv, inv, inv,
+/* 0xcc */	int3, int_i, inv, iret,
 /* 0xd0 */	group2_1_b, group2_1_v, group2_cl_b, group2_cl_v,
 /* 0xd4 */	inv, inv, nemu_trap, inv,
-/* 0xd8 */	inv, inv, inv, inv,
-/* 0xdc */	inv, inv, inv, inv,
+/* 0xd8 */	inv, float_instr, inv, inv,
+/* 0xdc */	inv, float_instr2, inv, inv,
 /* 0xe0 */	inv, inv, inv, inv,
 /* 0xe4 */	inv, inv, inv, inv,
 /* 0xe8 */	call_rel_v, jmp_rel_v, ljmp, jmp_rel_b,
@@ -198,7 +198,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x88 */	js_rel_v, jns_rel_v, inv, inv, 
 /* 0x8c */	jl_rel_v, jge_rel_v, jle_rel_v, jg_rel_v, 
 /* 0x90 */	inv, inv, inv, inv,
-/* 0x94 */	inv, setne_rm_b, inv, inv,
+/* 0x94 */	sete_rm_b, setne_rm_b, inv, inv,
 /* 0x98 */	inv, inv, inv, inv, 
 /* 0x9c */	inv, inv, inv, inv, 
 /* 0xa0 */	inv, inv, inv, inv, 

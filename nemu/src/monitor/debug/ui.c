@@ -80,7 +80,7 @@ static struct {
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 #define NR_RAM_UNIT_EACH_LINE 4
-#define MAX_FUNC_NUM 100
+#define MAX_FUNC_NUM 1000
 
 typedef struct {
     swaddr_t prev_ebp;
