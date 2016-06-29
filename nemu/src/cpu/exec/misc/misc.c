@@ -152,9 +152,11 @@ make_helper(iret) {
 	return 0;
 }
 
+/* float instructions, do nothing */
 make_helper(float_instr) {
 	/* do nothing */
 	Operand reg, rm;
+	rm.size = 4;
 	int len = read_ModR_M(eip + 1, &rm, &reg);
 	return 1 + len;
 }
@@ -162,6 +164,27 @@ make_helper(float_instr) {
 make_helper(float_instr2) {
 	/* do nothing */
 	Operand reg, rm;
+	rm.size = 4;
 	int len = read_ModR_M(eip + 1, &rm, &reg);
 	return 1 + len;
+}
+
+make_helper(hlt) {
+	if(cpu.IF == 0)
+		assert(0);
+	for(; ;) {
+		if(cpu.INTR)
+			break;
+	}
+	return 1;
+}
+
+make_helper(cli) {
+	cpu.IF = 0;
+	return 1;
+}
+
+make_helper(sti) {
+	cpu.IF = 1;
+	return 1;
 }

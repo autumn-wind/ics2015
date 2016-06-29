@@ -151,12 +151,12 @@ helper_fun opcode_table [256] = {
 /* 0xd8 */	inv, float_instr, inv, inv,
 /* 0xdc */	inv, float_instr2, inv, inv,
 /* 0xe0 */	inv, inv, inv, inv,
-/* 0xe4 */	inv, inv, inv, inv,
+/* 0xe4 */	in_i_b, in_i_v, out_i_b, out_i_v,
 /* 0xe8 */	call_rel_v, jmp_rel_v, ljmp, jmp_rel_b,
-/* 0xec */	inv, inv, inv, inv,
+/* 0xec */	in_b, in_v, out_b, out_v,
 /* 0xf0 */	inv, inv, inv, rep,
-/* 0xf4 */	inv, inv, group3_b, group3_v,
-/* 0xf8 */	inv, inv, inv, inv,
+/* 0xf4 */	hlt, inv, group3_b, group3_v,
+/* 0xf8 */	inv, inv, cli, sti,
 /* 0xfc */	cld, std, group4, group5
 };
 
@@ -178,7 +178,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x38 */	inv, inv, inv, inv, 
 /* 0x3c */	inv, inv, inv, inv, 
 /* 0x40 */	inv, inv, inv, inv, 
-/* 0x44 */	cmove_rm2r_v, inv, inv, cmova_rm2r_v,
+/* 0x44 */	cmove_rm2r_v, cmovne_rm2r_v, inv, cmova_rm2r_v,
 /* 0x48 */	cmovs_rm2r_v, cmovns_rm2r_v, inv, inv, 
 /* 0x4c */	inv, cmovge_rm2r_v, inv, inv, 
 /* 0x50 */	inv, inv, inv, inv, 

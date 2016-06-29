@@ -9,6 +9,9 @@ extern char *exec_file;
 extern void level_1_cache_init(void);
 extern void level_2_cache_init(void);
 
+extern void init_device();
+extern void init_sdl();
+
 void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_list();
@@ -40,6 +43,11 @@ void init_monitor(int argc, char *argv[]) {
 
 	/* Initialize the watchpoint link list. */
 	init_wp_list();
+
+#ifdef HAS_DEVICE
+	init_device();
+	init_sdl();
+#endif
 
 	/* Display welcome message. */
 	welcome();

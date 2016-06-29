@@ -67,7 +67,7 @@ count:
 #USERPROG := obj/testcase/gotbaha
 #USERPROG := obj/testcase/if-else
 #USERPROG := obj/testcase/leap-year
-USERPROG := obj/testcase/matrix-mul
+#USERPROG := obj/testcase/matrix-mul
 #USERPROG := obj/testcase/matrix-mul-small
 #USERPROG := obj/testcase/max
 #USERPROG := obj/testcase/min3
@@ -91,10 +91,12 @@ USERPROG := obj/testcase/matrix-mul
 
 #USERPROG := obj/testcase/hello
 #USERPROG := obj/testcase/hello-inline-asm
-#USERPROG := obj/testcase/integral
+USERPROG := obj/testcase/integral
 #USERPROG := obj/testcase/float_test
 #USERPROG := obj/testcase/quadratic-eq
 #USERPROG := obj/testcase/start
+
+#USERPROG := $(game_BIN)
 
 #ENTRY := $(USERPROG)
 ENTRY := $(kernel_BIN)

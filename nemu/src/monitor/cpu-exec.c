@@ -2,6 +2,9 @@
 #include "cpu/helper.h"
 #include <setjmp.h>
 #include "monitor/watchpoint.h"
+#include "device/i8259.h"
+
+extern void raise_intr(uint8_t);
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -87,6 +90,14 @@ void cpu_exec(volatile uint32_t n) {
 			printf("number of instrction executed: %d\n", instr_executed);
 			printf("number of times of accessing hwaddr: %llu\n", hwaddr_access_count);
 			return; 
+		}
+
+		if(cpu.INTR & cpu.IF) {
+			uint32_t intr_no = i8259_query_intr();
+			i8259_ack_intr();
+			cpu.eip -= 2;
+			/* before call raise_intr, cpu.eip should equal "next_instr_addr" - 2 */
+			raise_intr(intr_no);
 		}
 	}
 

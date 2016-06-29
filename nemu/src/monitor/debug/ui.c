@@ -58,6 +58,8 @@ static int cmd_d(char *);
 
 static int cmd_bt(char *);
 
+static int cmd_page(char *);
+
 static struct {
 	char *name;
 	char *description;
@@ -73,6 +75,7 @@ static struct {
 	{ "w", "Set watchpoint", cmd_w},
 	{ "d", "Delete watchpoint", cmd_d},
 	{ "bt", "Print stack frame list", cmd_bt},
+	{ "page", "Show the physical address according to the virtual address", cmd_page},
 
 	/* TODO: Add more commands */
 
@@ -113,6 +116,24 @@ void get_func_info(void) {
 	/*for(i = 0; i < func_num; ++i) {*/
 		/*printf("%d\t%d\t%s\n", func_info[i].begin, func_info[i].end, func_info[i].str);*/
 	/*}*/
+}
+
+extern hwaddr_t page_translate(lnaddr_t);
+
+static int cmd_page(char *args) {
+	if(args == NULL) {
+		printf("Please input right address!\n");
+		return 0;
+	}
+	uint32_t addr = -1;
+	if(sscanf(args, "%x", &addr) < 1){
+		printf("Invalid watchpoint number.\n");
+		return 0;
+	}
+
+	printf("virtual address: 0x%x\n", addr);
+	printf("physical address: 0x%x\n", page_translate(addr));
+	return 0;
 }
 
 static int cmd_bt(char *args) {

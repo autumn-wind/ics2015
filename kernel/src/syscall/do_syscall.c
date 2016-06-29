@@ -4,6 +4,7 @@
 
 void add_irq_handle(int, void (*)(void));
 void mm_brk(uint32_t);
+void serial_printc(char);
 
 static void sys_brk(TrapFrame *tf) {
 #ifdef IA32_PAGE
@@ -30,12 +31,17 @@ void do_syscall(TrapFrame *tf) {
 		/* TODO: Add more system calls. */
 		case SYS_write:
 			if(tf->ebx == 1) {
-				asm volatile (".byte 0xd6" : : "a"(2), "c"(tf->ecx), "d"(tf->edx));
+				/*use the help of nemu to print when device is not included*/
+				/*asm volatile (".byte 0xd6" : : "a"(2), "c"(tf->ecx), "d"(tf->edx));*/
+				int i;
+				char *pc = (char *)(tf->ecx);
+				for(i = 0; i < tf->edx && *(pc+i) != '\0'; ++i)
+					serial_printc(*(pc + i));
+				tf->eax = i;
 			}
 			else {
 				assert(0);
 			}
-			tf->eax = tf->edx;
 			break;
 
 		default: panic("Unhandled system call: id = %d", tf->eax);

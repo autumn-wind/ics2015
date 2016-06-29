@@ -39,6 +39,8 @@
 #include "string/cmps.h"
 
 #include "misc/misc.h"
+#include "misc/in.h"
+#include "misc/out.h"
 
 #include "special/special.h"
 

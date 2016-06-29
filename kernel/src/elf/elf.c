@@ -50,7 +50,7 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint32_t phy_addr_for_segment = mm_malloc(ph->p_vaddr, ph->p_memsz);
-			ramdisk_read((void *)pa_to_va(phy_addr_for_segment), ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
+			ide_read((void *)pa_to_va(phy_addr_for_segment), ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			 
 			 
 			/* TODO: zero the memory region 

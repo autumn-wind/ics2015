@@ -116,7 +116,9 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 			case 1: rm->val = reg_b(m.R_M); break;
 			case 2: rm->val = reg_w(m.R_M); break;
 			case 4: rm->val = reg_l(m.R_M); break;
-			default: assert(0);
+			default: 
+					printf("rm->size: %d\n", rm->size);
+					assert(0);
 		}
 #ifdef DEBUG
 		switch(rm->size) {

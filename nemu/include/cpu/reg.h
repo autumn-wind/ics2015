@@ -85,6 +85,8 @@ typedef struct {
 		uint32_t limit;
 	} cs, ds, es, ss;
 
+	bool INTR;
+
 } CPU_state;
 
 extern CPU_state cpu;

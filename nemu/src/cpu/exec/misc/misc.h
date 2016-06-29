@@ -15,5 +15,8 @@ make_helper(int_i);
 make_helper(iret);
 make_helper(float_instr);
 make_helper(float_instr2);
+make_helper(hlt);
+make_helper(sti);
+make_helper(cli);
 
 #endif
