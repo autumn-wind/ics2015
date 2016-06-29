@@ -29,7 +29,7 @@ make_group(group1_v,
 
 /* 0x83 */
 make_group(group1_sx_v,
-	add_si2rm_v, or_si2rm_v, inv, inv, 
+	add_si2rm_v, or_si2rm_v, adc_si2rm_v, inv, 
 	and_si2rm_v, sub_si2rm_v, inv, cmp_si2rm_v)
 
 /* 0xc0 */
@@ -180,7 +180,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x40 */	inv, inv, inv, inv, 
 /* 0x44 */	cmove_rm2r_v, cmovne_rm2r_v, inv, cmova_rm2r_v,
 /* 0x48 */	cmovs_rm2r_v, cmovns_rm2r_v, inv, inv, 
-/* 0x4c */	inv, cmovge_rm2r_v, inv, inv, 
+/* 0x4c */	inv, cmovge_rm2r_v, inv, cmovg_rm2r_v, 
 /* 0x50 */	inv, inv, inv, inv, 
 /* 0x54 */	inv, inv, inv, inv,
 /* 0x58 */	inv, inv, inv, inv, 
@@ -201,7 +201,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x94 */	sete_rm_b, setne_rm_b, inv, inv,
 /* 0x98 */	inv, inv, inv, inv, 
 /* 0x9c */	inv, inv, inv, inv, 
-/* 0xa0 */	inv, inv, inv, inv, 
+/* 0xa0 */	inv, inv, inv, bt_r2rm_v, 
 /* 0xa4 */	inv, inv, inv, inv,
 /* 0xa8 */	inv, inv, inv, inv,
 /* 0xac */	shrdi_v, inv, inv, imul_rm2r_v,

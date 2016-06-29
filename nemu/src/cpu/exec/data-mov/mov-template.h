@@ -62,6 +62,17 @@ static void do_execute() {
 make_instr_helper(rm2r)
 #undef instr
 
+#define instr cmovg
+static void do_execute() {
+	if(cpu.ZF == 0 && cpu.SF == cpu.OF){
+		OPERAND_W(op_dest, op_src->val);
+		print_asm_template2();
+	}
+}
+
+make_instr_helper(rm2r)
+#undef instr
+
 #define instr cmovns
 static void do_execute() {
 	if(cpu.SF == 0){

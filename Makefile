@@ -91,12 +91,12 @@ count:
 
 #USERPROG := obj/testcase/hello
 #USERPROG := obj/testcase/hello-inline-asm
-USERPROG := obj/testcase/integral
+#USERPROG := obj/testcase/integral
 #USERPROG := obj/testcase/float_test
 #USERPROG := obj/testcase/quadratic-eq
 #USERPROG := obj/testcase/start
 
-#USERPROG := $(game_BIN)
+USERPROG := $(game_BIN)
 
 #ENTRY := $(USERPROG)
 ENTRY := $(kernel_BIN)

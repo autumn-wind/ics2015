@@ -17,6 +17,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	int io_map_nr = is_mmio(addr);
 	if(io_map_nr != -1) {
 		/*map to I/O space*/
+		/*if(addr >= 0xa0000 && addr < 0xafa00)*/
+			/*printf("read through memory map i/o\n");*/
 		return mmio_read(addr, len, io_map_nr);
 	}
 	else {
@@ -35,6 +37,8 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	int io_map_nr = is_mmio(addr);
 	if(io_map_nr != -1) {
 		/*map to I/O space*/
+		/*if(addr >= 0xa0000 && addr < 0xafa00)*/
+			/*printf("write through memory map i/o\n");*/
 		mmio_write(addr, len, data, io_map_nr);
 	}
 	else {

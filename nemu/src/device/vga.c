@@ -48,6 +48,7 @@ void vga_vmem_io_handler(hwaddr_t addr, size_t len, bool is_write) {
 }
 
 void do_update_screen_graphic_mode() {
+	/*printf("reach do_update_screen func\n");*/
 	int i, j;
 	uint8_t (*vmem) [CTR_COL] = vmem_base;
 	SDL_Rect rect;
@@ -59,6 +60,7 @@ void do_update_screen_graphic_mode() {
 		if(line_dirty[i]) {
 			for(j = 0; j < CTR_COL; j ++) {
 				uint8_t color_idx = vmem[i][j];
+				/*printf("color_idx = %d\n", color_idx);*/
 				draw_pixel(2 * j, 2 * i, color_idx);
 				draw_pixel(2 * j, 2 * i + 1, color_idx);
 				draw_pixel(2 * j + 1, 2 * i, color_idx);
@@ -72,6 +74,7 @@ void do_update_screen_graphic_mode() {
 }
 
 void update_screen() {
+	/*printf("reach update_screen func\n");*/
 	if(vmem_dirty) {
 		do_update_screen_graphic_mode();
 		vmem_dirty = false;

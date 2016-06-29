@@ -12,6 +12,7 @@ game_LDFLAGS := -m elf_i386 -e game_init
 
 $(game_BIN): $(game_OBJS) $(FLOAT) $(NEWLIBC)
 	$(call make_command, $(LD), $(game_LDFLAGS), ld $@, $^)
+	@objdump -d $(game_BIN) > game.txt
 #$(call git_commit, "compile game")
 ifeq ($(GAME),nemu-pal)
 	dd if=/dev/null of=$(game_BIN) seek=2048

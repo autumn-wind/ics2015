@@ -23,6 +23,7 @@ extern void keyboard_intr();
 extern void update_screen();
 
 static void timer_sig_handler(int signum) {
+	/*assert(0);*/
 	jiffy ++;
 	timer_intr();
 
@@ -36,12 +37,14 @@ static void timer_sig_handler(int signum) {
 }
 
 void device_update() {
+	/*assert(0);*/
 	if(!device_update_flag) {
 		return;
 	}
 	device_update_flag = false;
 
 	if(update_screen_flag) {
+		/*assert(0);*/
 		update_screen();
 		update_screen_flag = false;
 	}
