@@ -115,7 +115,8 @@ PAL_InitFont(
    fp = fopen(PAL_PREFIX "word.dat", "rb");
    if (!fp)
    {
-      return 0;
+	  /*nemu_assert(0);*/
+	  return 0;
    }
 
    fseek(fp, 0x1E, SEEK_SET);
@@ -125,6 +126,7 @@ PAL_InitFont(
    }
 
    fclose(fp);
+   /*nemu_assert(0);*/
    return 0;
 }
 

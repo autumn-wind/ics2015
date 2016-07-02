@@ -125,6 +125,9 @@ PAL_Init(
    e = PAL_InitFont();
    if (e != 0)
    {
+	   /*nemu_assert(0);*/
+	   Log("e = %d\n", e);
+	   Log("I'm here: %s, %d, %s\n", __FILE__ ,__LINE__, __func__);
       TerminateOnError("Could not load fonts: %d.\n", e);
    }
    Log("PAL_InitFont success");

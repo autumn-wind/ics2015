@@ -10,7 +10,19 @@ static void do_execute() {
 	}
 	print_asm_template2();
 }
+make_instr_helper(rm)
+#undef instr
 
+#define instr setge
+static void do_execute() {
+	if(cpu.SF == cpu.OF) {
+		OPERAND_W(op_src, 1);
+	}
+	else {
+		OPERAND_W(op_src, 0);
+	}
+	print_asm_template2();
+}
 make_instr_helper(rm)
 #undef instr
 
@@ -24,7 +36,6 @@ static void do_execute() {
 	}
 	print_asm_template2();
 }
-
 make_instr_helper(rm)
 #undef instr
 

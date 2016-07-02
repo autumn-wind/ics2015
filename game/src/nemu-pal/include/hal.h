@@ -5,6 +5,7 @@
 #include "x86.h"
 
 #define HZ 100
+#define TIME_UNIT 1000
 
 /* Unused macros in NEMU are defined to 0. */
 #define SDL_VERSION_ATLEAST(x,y,z) 0

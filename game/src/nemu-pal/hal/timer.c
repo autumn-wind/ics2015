@@ -25,11 +25,23 @@ timer_event(void) {
 
 uint32_t SDL_GetTicks() {
 	/* TODO: Return the time in millisecond. */
-	assert(0);
-	return 0;
+	/*assert(0);*/
+	uint32_t now;
+	cli();
+	now = jiffy;
+	sti();
+	return now / HZ * TIME_UNIT;
 }
 
 void SDL_Delay(uint32_t ms) {
 	/* TODO: Return from this function after waiting for `ms' milliseconds. */
-	assert(0);
+	/*assert(0);*/
+	uint32_t now, ms_per_timeintr = TIME_UNIT / HZ;
+	cli();
+	now = jiffy;
+	sti();
+	for(; ; ) {
+		if((jiffy - now) * ms_per_timeintr > ms)
+			return;
+	}
 }

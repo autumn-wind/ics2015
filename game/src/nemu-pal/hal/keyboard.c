@@ -14,11 +14,8 @@ static const int keycode_array[] = {
 
 static int key_state[NR_KEYS];
 
-void
-keyboard_event(void) {
-	/* TODO: Fetch the scancode and update the key states. */
-	assert(0);
-}
+/*stores the last keyboard_event's key_code*/
+static volatile int key_code = 0;
 
 static inline int
 get_keycode(int index) {
@@ -44,8 +41,25 @@ clear_key(int index) {
 	key_state[index] = KEY_STATE_EMPTY;
 }
 
-bool 
-process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int)) {
+void press_key(int scan_code) {
+	int i;
+	for( i = 0; i < NR_KEYS; ++i) {
+		if(get_keycode(i) == scan_code) {
+			if(query_key(i) == KEY_STATE_EMPTY || query_key(i) == KEY_STATE_RELEASE)
+				key_state[i] = KEY_STATE_PRESS;
+			break;
+		}	
+	}
+}
+
+void keyboard_event(void) {
+	/* TODO: Fetch the scancode and update the key states. */
+	/*assert(0);*/
+	key_code = in_byte(0x60);
+	press_key(key_code);
+}
+
+bool process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int)) {
 	cli();
 	/* TODO: Traverse the key states. Find a key just pressed or released.
 	 * If a pressed key is found, call ``key_press_callback'' with the keycode.
@@ -54,8 +68,25 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * If no such key is found, the function return false.
 	 * Remember to enable interrupts before returning from the function.
 	 */
-
-	assert(0);
+	int i;
+	for(i = 0; i < NR_KEYS; ++i) {
+		if(query_key(i) == KEY_STATE_PRESS) {
+			key_state[i] = KEY_STATE_WAIT_RELEASE;
+			key_press_callback(get_keycode(i));
+			sti();
+			return true;
+		}
+		else if(query_key(i) == KEY_STATE_WAIT_RELEASE) {
+			if(get_keycode(i) != key_code) {
+				/*the key has been released*/
+				key_state[i] = KEY_STATE_RELEASE;
+				key_release_callback(get_keycode(i));
+				sti();
+				return true;
+			}
+		}
+	}
+	/*assert(0);*/
 	sti();
 	return false;
 }

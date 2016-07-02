@@ -4,7 +4,7 @@
 #include "common.h"
 
 #define HW_MEM_SIZE (128 * 1024 * 1024)
-#define TLB_LINE_NR 64
+#define TLB_LINE_NR 1024 * 1024
 
 #define ES 0
 #define CS 1

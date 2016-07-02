@@ -35,7 +35,7 @@ make_group(group1_sx_v,
 /* 0xc0 */
 make_group(group2_i_b,
 	inv, inv, inv, inv, 
-	inv, inv, inv, inv)
+	inv, shr_rm_imm_b, inv, inv)
 
 /* 0xc1 */
 make_group(group2_i_v,
@@ -50,7 +50,7 @@ make_group(group2_1_b,
 /* 0xd1 */
 make_group(group2_1_v,
 	inv, inv, inv, inv, 
-	inv, inv, inv, sar_rm_1_v)
+	shl_rm_1_v, inv, inv, sar_rm_1_v)
 
 /* 0xd2 */
 make_group(group2_cl_b,
@@ -70,7 +70,7 @@ make_group(group3_b,
 /* 0xf7 */
 make_group(group3_v,
 	test_i2rm_v, inv, not_rm_v, neg_rm_v, 
-	mul_rm_v, imul_rm2a_v, inv, idiv_rm_v)
+	mul_rm_v, imul_rm2a_v, div_rm_v, idiv_rm_v)
 
 /* 0xfe */
 make_group(group4,
@@ -94,15 +94,15 @@ make_group(group7,
 /* TODO: Add more instructions!!! */
 
 helper_fun opcode_table [256] = {
-/* 0x00 */	inv, add_r2rm_v, inv, add_rm2r_v,
+/* 0x00 */	inv, add_r2rm_v, add_rm2r_b, add_rm2r_v,
 /* 0x04 */	inv, add_i2a_v, inv, inv,
-/* 0x08 */	inv, or_r2rm_v, or_rm2r_b, inv,
+/* 0x08 */	or_r2rm_b, or_r2rm_v, or_rm2r_b, or_rm2r_v,
 /* 0x0c */	inv, or_i2a_v, inv, _2byte_esc,
 /* 0x10 */	inv, adc_r2rm_v, inv, inv,
 /* 0x14 */	inv, inv, inv, inv,
-/* 0x18 */	inv, inv, inv, sbb_rm2r_v,
+/* 0x18 */	inv, sbb_r2rm_v, inv, sbb_rm2r_v,
 /* 0x1c */	inv, inv, inv, inv,
-/* 0x20 */	inv, and_r2rm_v, and_rm2r_b, inv,
+/* 0x20 */	inv, and_r2rm_v, and_rm2r_b, and_rm2r_v,
 /* 0x24 */	inv, and_i2a_v, inv, inv,
 /* 0x28 */	inv, sub_r2rm_v, inv, sub_rm2r_v,
 /* 0x2c */	inv, sub_i2a_v, inv, inv,
@@ -132,7 +132,7 @@ helper_fun opcode_table [256] = {
 /* 0x8c */	inv, lea, mov_rm2sreg_w, inv,
 /* 0x90 */	nop, inv, inv, inv,
 /* 0x94 */	inv, inv, inv, inv,
-/* 0x98 */	inv, cdq_v, inv, inv,
+/* 0x98 */	cwde_v, cdq_v, inv, inv,
 /* 0x9c */	inv, inv, inv, inv,
 /* 0xa0 */	mov_moffs2a_b, mov_moffs2a_v, mov_a2moffs_b, mov_a2moffs_v,
 /* 0xa4 */	movs_none_b, movs_none_v, cmps_none_b, cmps_none_v,
@@ -178,7 +178,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x38 */	inv, inv, inv, inv, 
 /* 0x3c */	inv, inv, inv, inv, 
 /* 0x40 */	inv, inv, inv, inv, 
-/* 0x44 */	cmove_rm2r_v, cmovne_rm2r_v, inv, cmova_rm2r_v,
+/* 0x44 */	cmove_rm2r_v, cmovne_rm2r_v, cmovbe_rm2r_v, cmova_rm2r_v,
 /* 0x48 */	cmovs_rm2r_v, cmovns_rm2r_v, inv, inv, 
 /* 0x4c */	inv, cmovge_rm2r_v, inv, cmovg_rm2r_v, 
 /* 0x50 */	inv, inv, inv, inv, 
@@ -200,7 +200,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x90 */	inv, inv, inv, inv,
 /* 0x94 */	sete_rm_b, setne_rm_b, inv, inv,
 /* 0x98 */	inv, inv, inv, inv, 
-/* 0x9c */	inv, inv, inv, inv, 
+/* 0x9c */	inv, setge_rm_b, inv, inv, 
 /* 0xa0 */	inv, inv, inv, bt_r2rm_v, 
 /* 0xa4 */	inv, inv, inv, inv,
 /* 0xa8 */	inv, inv, inv, inv,
