@@ -50,7 +50,7 @@ make_group(group2_1_b,
 /* 0xd1 */
 make_group(group2_1_v,
 	inv, inv, inv, inv, 
-	shl_rm_1_v, inv, inv, sar_rm_1_v)
+	shl_rm_1_v, shr_rm_1_v, inv, sar_rm_1_v)
 
 /* 0xd2 */
 make_group(group2_cl_b,
@@ -97,7 +97,7 @@ helper_fun opcode_table [256] = {
 /* 0x00 */	inv, add_r2rm_v, add_rm2r_b, add_rm2r_v,
 /* 0x04 */	inv, add_i2a_v, inv, inv,
 /* 0x08 */	or_r2rm_b, or_r2rm_v, or_rm2r_b, or_rm2r_v,
-/* 0x0c */	inv, or_i2a_v, inv, _2byte_esc,
+/* 0x0c */	or_i2a_b, or_i2a_v, inv, _2byte_esc,
 /* 0x10 */	inv, adc_r2rm_v, inv, inv,
 /* 0x14 */	inv, inv, inv, inv,
 /* 0x18 */	inv, sbb_r2rm_v, inv, sbb_rm2r_v,
