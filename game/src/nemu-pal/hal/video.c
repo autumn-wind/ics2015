@@ -71,7 +71,7 @@ extern SDL_Surface *gpScreen;
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 	assert(dst);
 	assert(color <= 0xff);
-	assert(dst->format->BytesPerPixel == 1);
+	/*assert(dst->format->BytesPerPixel == 1);*/
 	/* TODO: Fill the rectangle area described by ``dstrect''
 	 * in surface ``dst'' with color ``color''. If dstrect is
 	 * NULL, fill the whole surface.

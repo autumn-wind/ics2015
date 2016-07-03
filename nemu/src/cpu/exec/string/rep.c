@@ -9,6 +9,8 @@ make_helper(rep) {
 		/* repz ret */
 		exec(eip + 1);
 		len = 0;
+		/*must return 0 here, maybe caused by my not-so-good implementation of call and ret*/
+		return 0;
 	}
 	else {
 		while(cpu.ecx) {

@@ -36,7 +36,16 @@ static void do_execute() {
 		print_asm_template2();
 	}
 }
+make_instr_helper(rm2r)
+#undef instr
 
+#define instr cmovae
+static void do_execute() {
+	if(cpu.CF == 0){
+		OPERAND_W(op_dest, op_src->val);
+		print_asm_template2();
+	}
+}
 make_instr_helper(rm2r)
 #undef instr
 
@@ -47,7 +56,6 @@ static void do_execute() {
 		print_asm_template2();
 	}
 }
-
 make_instr_helper(rm2r)
 #undef instr
 
@@ -58,7 +66,6 @@ static void do_execute() {
 		print_asm_template2();
 	}
 }
-
 make_instr_helper(rm2r)
 #undef instr
 
@@ -69,7 +76,6 @@ static void do_execute() {
 		print_asm_template2();
 	}
 }
-
 make_instr_helper(rm2r)
 #undef instr
 
@@ -80,7 +86,6 @@ static void do_execute() {
 		print_asm_template2();
 	}
 }
-
 make_instr_helper(rm2r)
 #undef instr
 
@@ -91,7 +96,6 @@ static void do_execute() {
 		print_asm_template2();
 	}
 }
-
 make_instr_helper(rm2r)
 #undef instr
 
@@ -102,7 +106,26 @@ static void do_execute() {
 		print_asm_template2();
 	}
 }
+make_instr_helper(rm2r)
+#undef instr
 
+#define instr cmovl
+static void do_execute() {
+	if(cpu.SF != cpu.OF){
+		OPERAND_W(op_dest, op_src->val);
+		print_asm_template2();
+	}
+}
+make_instr_helper(rm2r)
+#undef instr
+
+#define instr cmovle
+static void do_execute() {
+	if(cpu.ZF == 1 || cpu.SF != cpu.OF){
+		OPERAND_W(op_dest, op_src->val);
+		print_asm_template2();
+	}
+}
 make_instr_helper(rm2r)
 #undef instr
 
@@ -113,7 +136,6 @@ static void do_execute() {
 		print_asm_template2();
 	}
 }
-
 make_instr_helper(rm2r)
 #undef instr
 
