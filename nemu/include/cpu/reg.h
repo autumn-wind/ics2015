@@ -85,7 +85,8 @@ typedef struct {
 		uint32_t limit;
 	} cs, ds, es, ss;
 
-	volatile bool INTR;
+	//volatile bool INTR;
+	bool INTR;
 
 } CPU_state;
 

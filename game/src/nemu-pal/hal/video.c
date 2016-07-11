@@ -11,26 +11,22 @@ void blit_helper(SDL_Surface *src,int16_t src_x, int16_t src_y, SDL_Surface *dst
 	assert(src_x >= 0 && src_y >= 0 && src_x + clp_width <= src->w && src_y + clp_height <= src->h);
 	assert(dst_x >= 0 && dst_y >= 0 && dst_x + clp_width <= dst->w && dst_y + clp_height <= dst->h);
 	/*Log("BytesPerPixel: %d\n", src->format->BytesPerPixel);*/
-	/*if(src->format->BytesPerPixel == 1) {*/
-		int16_t x1 = src_x, y1 = src_y;
-		int16_t x2 = dst_x, y2 = dst_y;
-		uint16_t m = clp_width, n = clp_height;
-		uint16_t width1 = src->w, width2 = dst->w;
+	assert(src->format->BytesPerPixel == 1);
+	int16_t x1 = src_x, y1 = src_y;
+	int16_t x2 = dst_x, y2 = dst_y;
+	uint16_t m = clp_width, n = clp_height;
+	uint16_t width1 = src->w, width2 = dst->w;
 
-		int i,j;
-		uint8_t *src_pixel = (uint8_t *)(src->pixels) + y1 * width1 + x1;
-		uint8_t *dst_pixel = (uint8_t *)(dst->pixels) + y2 * width2 + x2;
-		for(i = 0; i < n; ++i) {
-			for(j = 0; j < m; ++j) {
-				*dst_pixel++ = *src_pixel++;
-			}
-			src_pixel += width1 - m;
-			dst_pixel += width2 - m;
+	int i,j;
+	uint8_t *src_pixel = (uint8_t *)(src->pixels) + y1 * width1 + x1;
+	uint8_t *dst_pixel = (uint8_t *)(dst->pixels) + y2 * width2 + x2;
+	for(i = 0; i < n; ++i) {
+		for(j = 0; j < m; ++j) {
+			*dst_pixel++ = *src_pixel++;
 		}
-	/*}*/
-	/*else {*/
-		/*assert(0);*/
-	/*}*/
+		src_pixel += width1 - m;
+		dst_pixel += width2 - m;
+	}
 }
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, 
@@ -71,11 +67,12 @@ extern SDL_Surface *gpScreen;
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 	assert(dst);
 	assert(color <= 0xff);
-	/*assert(dst->format->BytesPerPixel == 1);*/
 	/* TODO: Fill the rectangle area described by ``dstrect''
 	 * in surface ``dst'' with color ``color''. If dstrect is
 	 * NULL, fill the whole surface.
 	 */
+	assert(dst->format->BytesPerPixel == 1);
+
 	int16_t x, y, w, h;
 	if(dstrect == NULL) {
 		x = y = 0;
@@ -189,6 +186,7 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
 	s->format->palette->colors = NULL;
 
 	s->format->BitsPerPixel = depth;
+	s->format->BytesPerPixel = depth >> 3;
 
 	s->flags = flags;
 	s->w = width;
